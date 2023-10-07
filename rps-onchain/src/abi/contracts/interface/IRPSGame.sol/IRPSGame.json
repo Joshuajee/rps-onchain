@@ -1,0 +1,27 @@
+[
+  {
+    "inputs": [],
+    "name": "CannotRevealNow",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "HashDonotMatch",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidMove",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotYourTurn",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UnAuthorize",
+    "type": "error"
+  }
+]
