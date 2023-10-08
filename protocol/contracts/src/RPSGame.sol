@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.19;
+pragma solidity 0.8.20;
 
-import { IRPSGame } from "./interface/IRPSGame.sol";
+import { IRPSGame } from "../interface/IRPSGame.sol";
 
 contract RPSGame is IRPSGame {
 
@@ -14,6 +14,8 @@ contract RPSGame is IRPSGame {
     enum Outcome {None, PlayerA, PlayerB, Draw}   // Possible outcomes
 
     GameType gameType;
+    address immutable public factory;
+    bool gameEnded = false;
 
     // Players' addresses
     address immutable public playerA;
@@ -37,11 +39,13 @@ contract RPSGame is IRPSGame {
 
     GameResult gameResult;
 
-    constructor(address _playerA, address _playerB//, GameType _gameType
-    ) {
+    //, GameType _gameType
+
+    constructor(address _playerA, address _playerB) {
         playerA = _playerA;
         playerB = _playerB;
         //gameType = _gameType;
+        factory = msg.sender;
     }
 
 
@@ -50,7 +54,7 @@ contract RPSGame is IRPSGame {
     /**************************************************************************/
 
     // Save player's encrypted move.
-    function play(bytes32 encrMove) external isPlayer {
+    function play(bytes32 encrMove) external hasGameEnded isPlayer {
         if (msg.sender == playerA && encryptedMovePlayerA == 0x0) {
             encryptedMovePlayerA = encrMove;
         } else if (msg.sender == playerB && encryptedMovePlayerB == 0x0) {
@@ -60,8 +64,8 @@ contract RPSGame is IRPSGame {
         }
     }
 
-
-    function reveal(Move _move, string calldata _password) external isPlayer bothHasPlayed {
+    // reveal move
+    function reveal(Move _move, string calldata _password) external hasGameEnded isPlayer bothHasPlayed {
         
         bytes32 encryptedMove = encryptMove(_move, _password);
    
@@ -75,10 +79,22 @@ contract RPSGame is IRPSGame {
                 movePlayerB = _move;
             }  else revert HashDonotMatch();
         } else {
-            revert UnAuthorize(); 
+            revert UnAuthorized(); 
         }
 
         _updateGameResult(movePlayerA, movePlayerB);
+
+    }
+
+    function claimPrize(address _winner) external {
+
+        if(!gameEnded) revert GameNotOver();
+
+        if (_winner == playerA) {
+
+        } else  if (_winner == playerB) {
+
+        }
 
     }
 
@@ -137,13 +153,17 @@ contract RPSGame is IRPSGame {
     }
 
     function _playerAWon() internal {
+        uint8 _point = gameResult.playerA + 1;
         gameResult.outcome.push(Outcome.PlayerA);
-        gameResult.playerA = gameResult.playerA + 1;
+        gameResult.playerA = _point;
+        if (_point > 1) gameEnded = true;
     }
 
     function _playerBWon() internal {
+        uint8 _point = gameResult.playerA + 1;
         gameResult.outcome.push(Outcome.PlayerB);
-        gameResult.playerB = gameResult.playerB + 1;
+        gameResult.playerB = _point;
+        if (_point > 1) gameEnded = true;
     }
 
 
@@ -168,13 +188,17 @@ contract RPSGame is IRPSGame {
     }
 
 
-
     /**************************************************************************/
     /***************************      Modifiers     ***************************/
     /**************************************************************************/
 
+    modifier hasGameEnded() {
+        if (gameEnded) revert GameOver();
+        _;
+    }
+
     modifier isPlayer() {
-        require (msg.sender == playerA || msg.sender == playerB);
+        if (msg.sender != playerA && msg.sender != playerB) revert UnAuthorized();
         _;
     }
 
@@ -182,9 +206,5 @@ contract RPSGame is IRPSGame {
         if (encryptedMovePlayerA == 0x0 || encryptedMovePlayerB == 0x0) revert CannotRevealNow();
         _;
     }
-
-    
-
-
 
 }

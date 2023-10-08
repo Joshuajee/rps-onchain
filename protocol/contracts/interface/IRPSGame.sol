@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+pragma solidity 0.8.20;
 
 interface IRPSGame {
 
-    error UnAuthorize();
+    error UnAuthorized();
     error InvalidMove();
     error NotYourTurn();
     error HashDonotMatch();
     error CannotRevealNow();
+    error GameNotOver();
+    error GameOver();
   
 }

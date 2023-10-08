@@ -5,12 +5,13 @@ import 'hardhat-contract-sizer';
 // import "@nomiclabs/hardhat-etherscan";
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.19",
+  solidity: "0.8.20",
   abiExporter: [
 		{
 			path: '../rps-onchain/src/abi',
 			pretty: false,
 			runOnCompile: true,
+      only: [":RPS"],
 		}
 	],
 	contractSizer: {
@@ -18,6 +19,7 @@ const config: HardhatUserConfig = {
 		disambiguatePaths: false,
 		runOnCompile: true,
 		strict: true,
+    only: [":RPS"],
 	},
 };
 
