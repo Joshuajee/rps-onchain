@@ -18,10 +18,12 @@ describe("RPSGame", function () {
     // Contracts are deployed using the first signer/account by default
     const [playerA, playerB] = await ethers.getSigners();
 
-    //const gameType = //Enum("NoStake", "Stake");
+    const RPSGameFactory = await ethers.getContractFactory("RPSGameFactory");
+    const rpsGameFactory = await RPSGameFactory.deploy();
 
-    const RPSGame = await ethers.getContractFactory("RPSGame");
-    const rpsGame = await RPSGame.deploy(playerA.address, playerB.address);
+    await rpsGameFactory.createGame(playerA.address, playerB.address)
+
+    const rpsGame = 0; await rpsGameFactory.userGames();
 
     return { rpsGame, playerA, playerB };
   }

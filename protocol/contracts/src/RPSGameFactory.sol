@@ -13,9 +13,14 @@ interface ITOKEN {
 
 contract RPSGameFactory {
 
-//    using SafeTransferLib for address;
+    event CreateGame(address indexed playerA, address indexed game);
+    event JoinGame(address indexed playerB, address indexed game);
 
-    mapping(address => RPSGame) games;
+    //recording games
+    mapping(address => RPSGame) public games;
+
+    // recording games user participated in
+    mapping(address => RPSGame[]) public userGames;
 
     address immutable public pointTokenAddress;
     //address immutable public cloneAddress;
@@ -24,13 +29,34 @@ contract RPSGameFactory {
         pointTokenAddress = address(new RPSPointToken());
     }
 
-    function createGame(address _playerA, address _playerB) internal returns (address pair) {
+    function createGame(address _playerA, address _playerB) external {
         
         RPSGame game = new RPSGame(_playerA, _playerB); 
 
         address gameAddress = address(game);
 
-        //ITOKEN(pointTokenAddress).mint(gameAddress, 10);
+        games[gameAddress] = game; 
+
+        // add the game to games created
+        userGames[_playerA].push(game);
+
+        emit CreateGame(_playerA, _playerB);
+        
+    }
+
+
+    function joinGame(address _gameAddress) external {
+
+        address _playerB = msg.sender;
+
+        RPSGame game = RPSGame(_gameAddress);
+
+        game.joinGame(_playerB);
+
+        // add to the game user games
+        userGames[_playerB].push(game);
+
+        emit JoinGame(_playerB, _gameAddress);
         
     }
 

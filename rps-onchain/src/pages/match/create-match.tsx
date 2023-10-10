@@ -1,17 +1,36 @@
 import Container from "@/components/utils/Container";
-import GameButton from "@/components/utils/GameButton";
 import Input from "@/components/utils/Input";
 import Layout from "@/components/utils/Layout";
 import Web3btn from "@/components/utils/Web3btn";
 import useInput from "@/hooks/useInput";
+import { MAIN_CONTRACT } from "@/libs/constants";
 import { useRouter } from "next/router";
-
+import { Address, useAccount, useContractWrite } from "wagmi";
+import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
+import { useEffect } from "react";
 
 export default function CreateMatch() {
 
   const router = useRouter()
 
+  const { address } = useAccount()
+
   const opponentAddress = useInput("address")
+
+  const createGame = useContractWrite({
+    address: MAIN_CONTRACT as Address,
+    abi: RPSGameFactory,
+    functionName: 'createGame',
+    args: [address, opponentAddress.value],
+  })
+
+  console.log(address, opponentAddress)
+
+  useEffect(() => {
+    if (createGame.isError) {
+      alert(createGame.error)
+    }
+  })
 
   return (
     <Layout>
@@ -32,7 +51,7 @@ export default function CreateMatch() {
               />
 
 
-            <Web3btn>
+            <Web3btn onClick={createGame.write} loading={createGame.isLoading}>
               Create Match
             </Web3btn>
 

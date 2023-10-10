@@ -3,8 +3,9 @@
 pragma solidity 0.8.20;
 
 import { IRPSGame } from "../interface/IRPSGame.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract RPSGame is IRPSGame {
+contract RPSGame is IRPSGame, Ownable {
 
     uint constant public GAME_TIMEOUT = 10 minutes;    // Max delay
 
@@ -15,6 +16,7 @@ contract RPSGame is IRPSGame {
 
     GameType gameType;
     address immutable public factory;
+    bool gameStarted = false;
     bool gameEnded = false;
 
     // Players' addresses
@@ -53,8 +55,13 @@ contract RPSGame is IRPSGame {
     /**************************** External Function ***************************/
     /**************************************************************************/
 
+    function joinGame(address _playerB) external onlyOwner {
+
+        gameStarted = true;
+    }
+
     // Save player's encrypted move.
-    function play(bytes32 encrMove) external hasGameEnded isPlayer {
+    function play(bytes32 encrMove) external canPlayGame isPlayer {
         if (msg.sender == playerA && encryptedMovePlayerA == 0x0) {
             encryptedMovePlayerA = encrMove;
         } else if (msg.sender == playerB && encryptedMovePlayerB == 0x0) {
@@ -65,7 +72,7 @@ contract RPSGame is IRPSGame {
     }
 
     // reveal move
-    function reveal(Move _move, string calldata _password) external hasGameEnded isPlayer bothHasPlayed {
+    function reveal(Move _move, string calldata _password) external canPlayGame isPlayer bothHasPlayed {
         
         bytes32 encryptedMove = encryptMove(_move, _password);
    
@@ -192,7 +199,8 @@ contract RPSGame is IRPSGame {
     /***************************      Modifiers     ***************************/
     /**************************************************************************/
 
-    modifier hasGameEnded() {
+    modifier canPlayGame() {
+        if (!gameStarted) revert OpponentHasNotJoined();
         if (gameEnded) revert GameOver();
         _;
     }

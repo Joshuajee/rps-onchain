@@ -26,7 +26,7 @@ const Input = (props: IProps) => {
                 onChange={(e) => onChange(e.target.value)}  id={id}  
                 onFocus={(e) => onFocus?.(true)} 
                 className={`
-                    bg-[#FFFFFF] border-[1px] border-[#D0D5DD] disabled:border-[#D0D5DD] disabled:text-[#D0D5DD] outline-none text-sm rounded-lg ${error ? "border-red-400": "focus:border-[#023047] focus:text-[#023047]"}  block w-full p-2.5`} 
+                text-[#344054] bg-[#FFFFFF] border-[1px] border-[#D0D5DD] disabled:border-[#D0D5DD] outline-none text-sm rounded-lg ${error ? "border-red-400": "focus:border-[#023047] focus:text-[#023047]"}  block w-full p-2.5`} 
                     placeholder={placeholder} />
             {error && <p className="my-2 text-xs text-red-400">{helperText}</p>}
         </div>

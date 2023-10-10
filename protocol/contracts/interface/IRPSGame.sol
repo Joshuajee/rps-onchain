@@ -8,6 +8,7 @@ interface IRPSGame {
     error NotYourTurn();
     error HashDonotMatch();
     error CannotRevealNow();
+    error OpponentHasNotJoined();
     error GameNotOver();
     error GameOver();
   
