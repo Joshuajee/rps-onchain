@@ -10,7 +10,6 @@ import {
   
   describe("RPSGameFactory", function () {
   
-    const password = "Hello"
     // We define a fixture to reuse the same setup in every test.
     // We use loadFixture to run this setup once, snapshot that state,
     // and reset Hardhat Network to that snapshot in every test.
@@ -27,9 +26,50 @@ import {
     describe("Deployment", function () {
   
         it("Should be mapped correctly", async function () {
+
             const { rpsGameFactory, playerA, playerB } = await loadFixture(deploy);
             
             await rpsGameFactory.createGame(playerA.address, playerB.address)
+            
+        });
+  
+    });
+
+
+    describe("Game Creation", function () {
+  
+        it("PlayerA Games should be updated", async function () {
+            
+            const { rpsGameFactory, playerA, playerB } = await loadFixture(deploy);
+            
+            await rpsGameFactory.createGame(playerA.address, playerB.address)
+
+            expect(await rpsGameFactory.getUserGamesLength(playerA.address)).to.be.equal(1)
+            
+        });
+
+        it("PlayerB Games should not be updated when they register", async function () {
+            
+            const { rpsGameFactory, playerA, playerB } = await loadFixture(deploy);
+            
+            await rpsGameFactory.createGame(playerA.address, playerB.address)
+            
+            expect(await rpsGameFactory.getUserGamesLength(playerB.address)).to.be.equal(0)
+            
+        });
+
+          
+        it("PlayerB Games should be updated when they register", async function () {
+            
+            const { rpsGameFactory, playerA, playerB } = await loadFixture(deploy);
+            
+            await rpsGameFactory.createGame(playerA.address, playerB.address)
+
+            const rpsGameAddress = await rpsGameFactory.getUserGame(playerA.address, 0);
+
+            await rpsGameFactory.connect(playerB).joinGame(rpsGameAddress)
+            
+            expect(await rpsGameFactory.getUserGamesLength(playerA.address)).to.be.equal(1)
             
         });
   

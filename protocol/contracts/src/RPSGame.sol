@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract RPSGame is IRPSGame, Ownable {
 
     uint constant public GAME_TIMEOUT = 10 minutes;    // Max delay
+    uint public timeLeft;
 
 
     enum GameType {NoStake, Stake}
@@ -56,8 +57,8 @@ contract RPSGame is IRPSGame, Ownable {
     /**************************************************************************/
 
     function joinGame(address _playerB) external onlyOwner {
-
         gameStarted = true;
+        timeLeft = block.timestamp + GAME_TIMEOUT;
     }
 
     // Save player's encrypted move.
@@ -69,6 +70,7 @@ contract RPSGame is IRPSGame, Ownable {
         } else {
             revert NotYourTurn();
         }
+        timeLeft = block.timestamp + GAME_TIMEOUT;
     }
 
     // reveal move
@@ -90,7 +92,7 @@ contract RPSGame is IRPSGame, Ownable {
         }
 
         _updateGameResult(movePlayerA, movePlayerB);
-
+        timeLeft = block.timestamp + GAME_TIMEOUT;
     }
 
     function claimPrize(address _winner) external {

@@ -45,7 +45,7 @@ contract RPSGameFactory {
     }
 
 
-    function joinGame(address _gameAddress) external {
+    function joinGame(address payable _gameAddress) external {
 
         address _playerB = msg.sender;
 
@@ -60,5 +60,47 @@ contract RPSGameFactory {
         
     }
 
-   
+
+    function getUserGame (address _user, uint _index) external view returns(RPSGame) {
+        return userGames[_user][_index];
+    }
+
+    
+
+    function getUserGames (address _user, uint _start) external view returns(RPSGame[] memory) {
+
+        uint8 COUNT = 100;
+
+        uint256 _length = userGames[_user].length;
+
+        uint256 start = _start;
+
+        if (_start > _length) {
+            start = _length;
+        }
+
+        uint end = start < COUNT ? 0 : start - COUNT;
+
+        uint8 count = 0;
+
+        RPSGame[] memory rpsGames = new RPSGame[](COUNT);
+
+        for (uint i = start; i > end;) {
+
+            rpsGames[count] = userGames[_user][count];
+
+            unchecked {
+                --i;
+                ++count;
+            }
+
+        }
+
+        return rpsGames;
+    }
+
+    function getUserGamesLength (address _user) external view returns(uint) {
+        return userGames[_user].length;
+    }
+
 }

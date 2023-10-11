@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import LoadingButton from "./LoadingButton"
 import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
-import ModalWrapper from "./ModalWrapper";
+import ModalWrapper from "../modals/ModalWrapper";
 import WalletOptions from "../connection/walletsOptions";
 
 interface IProps { 

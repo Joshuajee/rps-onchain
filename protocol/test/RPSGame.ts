@@ -23,8 +23,30 @@ describe("RPSGame", function () {
 
     await rpsGameFactory.createGame(playerA.address, playerB.address)
 
-    const rpsGame = 0; await rpsGameFactory.userGames();
+    const rpsGameAddress = await rpsGameFactory.getUserGame(playerA.address, 0);
 
+    await rpsGameFactory.connect(playerB).joinGame(rpsGameAddress)
+
+    const rpsGame = await ethers.getContractAt("RPSGame", rpsGameAddress);
+
+    return { rpsGame, playerA, playerB };
+  }
+
+  async function deployNo() {
+    // Contracts are deployed using the first signer/account by default
+    const [playerA, playerB] = await ethers.getSigners();
+
+    const RPSGameFactory = await ethers.getContractFactory("RPSGameFactory");
+    const rpsGameFactory = await RPSGameFactory.deploy();
+
+    await rpsGameFactory.createGame(playerA.address, playerB.address)
+
+    const rpsGameAddress = await rpsGameFactory.getUserGame(playerA.address, 0);
+
+    await rpsGameFactory.connect(playerB).joinGame(rpsGameAddress)
+
+    const rpsGame = await ethers.getContractAt("RPSGame", rpsGameAddress);
+    
     return { rpsGame, playerA, playerB };
   }
 
@@ -37,6 +59,26 @@ describe("RPSGame", function () {
       expect(await rpsGame.playerB()).to.equal(playerB.address);
     });
 
+    it("Should Not be able to player if opponent has not registered", async function () {
+
+      // Contracts are deployed using the first signer/account by default
+      const [playerA, playerB] = await ethers.getSigners();
+
+      const RPSGameFactory = await ethers.getContractFactory("RPSGameFactory");
+      const rpsGameFactory = await RPSGameFactory.deploy();
+
+      await rpsGameFactory.createGame(playerA.address, playerB.address)
+
+      const rpsGameAddress = await rpsGameFactory.getUserGame(playerA.address, 0);
+
+      const rpsGame = await ethers.getContractAt("RPSGame", rpsGameAddress);
+
+      const move1 = await rpsGame.encryptMove(BigInt(1), password)
+
+      await expect(rpsGame.play(move1)).to.be.revertedWithCustomError(rpsGame, "OpponentHasNotJoined")
+
+    })
+    
   });
 
 

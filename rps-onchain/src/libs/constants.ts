@@ -1,4 +1,6 @@
-export const MAIN_CONTRACT = process.env.NEXT_PUBLIC_MAIN_CONTRACT
+import { Address } from "wagmi";
+
+export const MAIN_CONTRACT = process.env.NEXT_PUBLIC_MAIN_CONTRACT as Address
 
 export enum LINKS {
     ACHIEVEMENTS =  "/achievements",

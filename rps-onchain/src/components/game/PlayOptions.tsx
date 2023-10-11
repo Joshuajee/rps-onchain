@@ -10,13 +10,12 @@ interface IProps {
     setPlayerMove: (val: PLAYER_MOVE) => void;
 }
 
-const PlayOptions = ({ setPlayerMove } : IProps) => {
+const PlayOptions = () => {
 
     const router  = useRouter()
 
 
     const play = useContractWrite({
-        mode: 'recklesslyUnprepared',
         address: (router.query.id) as any,
         abi: RPSGame,
         functionName: 'createGame',
