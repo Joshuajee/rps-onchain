@@ -16,11 +16,7 @@ interface IProps {
 const Web3btn = (props: IProps) => {
 
     const { isConnected } = useAccount()
-    const { chain } = useNetwork()
-    const { switchNetwork } = useSwitchNetwork()
     const [showOptions, setShowOptions] = useState(false)
-    const [switchChain, setSwitchChain] = useState(false)
-
     const closeOptions  = () => {
         setShowOptions(false)
     }

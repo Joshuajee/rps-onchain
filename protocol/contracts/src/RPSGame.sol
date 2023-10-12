@@ -3,22 +3,24 @@
 pragma solidity 0.8.20;
 
 import { IRPSGame } from "../interface/IRPSGame.sol";
+import { IRPSGameBase } from "../interface/IRPSGameBase.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-contract RPSGame is IRPSGame, Ownable {
+contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
+
+    using SafeERC20 for IERC20;
 
     uint constant public GAME_TIMEOUT = 10 minutes;    // Max delay
     uint public timeLeft;
 
-
-    enum GameType {NoStake, Stake}
     enum Move {None, Rock, Paper, Scissors}
     enum Outcome {None, PlayerA, PlayerB, Draw}   // Possible outcomes
 
-    GameType gameType;
-    address immutable public factory;
-    bool gameStarted = false;
-    bool gameEnded = false;
+    bool public gameStarted = false;
+    bool public gameEnded = false;
 
     // Players' addresses
     address immutable public playerA;
@@ -41,14 +43,12 @@ contract RPSGame is IRPSGame, Ownable {
     }
 
     GameResult gameResult;
+    GameInfo gameInfo;
 
-    //, GameType _gameType
-
-    constructor(address _playerA, address _playerB) {
+    constructor(address _playerA, address _playerB, GameInfo memory _gameInfo) {
         playerA = _playerA;
         playerB = _playerB;
-        //gameType = _gameType;
-        factory = msg.sender;
+        gameInfo = _gameInfo;
     }
 
 
@@ -56,9 +56,35 @@ contract RPSGame is IRPSGame, Ownable {
     /**************************** External Function ***************************/
     /**************************************************************************/
 
-    function joinGame(address _playerB) external onlyOwner {
+    function joinGame(address _playerB) external payable onlyOwner {
+
         gameStarted = true;
+        
         timeLeft = block.timestamp + GAME_TIMEOUT;
+
+        GameInfo storage _gameInfo = gameInfo;
+
+        uint _value = _gameInfo.playerAStake.value;
+        
+        if (_gameInfo.isStaked) {
+
+            if (_gameInfo.playerAStake.stakeType == StakeType.isToken) {
+
+                IERC20(_gameInfo.playerAStake.tokenAddress).safeTransferFrom(msg.sender, address(this), _value);
+               
+            } else if (_gameInfo.playerAStake.stakeType == StakeType.isNFT) {
+            
+                IERC721(_gameInfo.playerAStake.tokenAddress).safeTransferFrom(msg.sender, address(this), _value);
+
+            } else if (_gameInfo.playerAStake.stakeType == StakeType.isNative) {
+            
+                if (_value != msg.value) revert StakeDonotMatch(); 
+
+                address(this).call{value: msg.value}("");
+            }
+
+        }
+    
     }
 
     // Save player's encrypted move.
@@ -110,6 +136,9 @@ contract RPSGame is IRPSGame, Ownable {
     function getGameResult() external view returns(GameResult memory) {
         return gameResult; 
     }
+
+    fallback() external payable {}
+    receive() external payable {}
 
 
     /**************************************************************************/

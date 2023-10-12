@@ -5,6 +5,11 @@
     "type": "constructor"
   },
   {
+    "inputs": [],
+    "name": "StakeDonotMatch",
+    "type": "error"
+  },
+  {
     "anonymous": false,
     "inputs": [
       {
@@ -43,6 +48,10 @@
     "type": "event"
   },
   {
+    "stateMutability": "payable",
+    "type": "fallback"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -53,11 +62,67 @@
         "internalType": "address",
         "name": "_playerB",
         "type": "address"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "isStaked",
+            "type": "bool"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum IRPSGameBase.StakeType",
+                "name": "stakeType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "tokenAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct IRPSGameBase.PlayerStake",
+            "name": "playerAStake",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum IRPSGameBase.StakeType",
+                "name": "stakeType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "tokenAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct IRPSGameBase.PlayerStake",
+            "name": "playerBStake",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct IRPSGameBase.GameInfo",
+        "name": "_gameInfo",
+        "type": "tuple"
       }
     ],
     "name": "createGame",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -195,5 +260,9 @@
     ],
     "stateMutability": "view",
     "type": "function"
+  },
+  {
+    "stateMutability": "payable",
+    "type": "receive"
   }
 ]

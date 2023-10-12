@@ -2,8 +2,11 @@
 pragma solidity  0.8.20;
 
 import { RPSPointToken } from './RPSPointToken.sol';
-//import {SafeTransferLib} from "solady/utils/SafeTransferLib.sol";
 import { RPSGame } from './RPSGame.sol';
+import { IRPSGameBase } from "../interface/IRPSGameBase.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 //import '../libs/CloneFactory.sol';
 
 
@@ -11,7 +14,9 @@ interface ITOKEN {
     function mint(address to, uint256 amount) external;
 }
 
-contract RPSGameFactory {
+contract RPSGameFactory is IRPSGameBase {
+
+    using SafeERC20 for IERC20;
 
     event CreateGame(address indexed playerA, address indexed game);
     event JoinGame(address indexed playerB, address indexed game);
@@ -23,22 +28,42 @@ contract RPSGameFactory {
     mapping(address => RPSGame[]) public userGames;
 
     address immutable public pointTokenAddress;
-    //address immutable public cloneAddress;
 
     constructor() {
         pointTokenAddress = address(new RPSPointToken());
     }
 
-    function createGame(address _playerA, address _playerB) external {
+    function createGame(address _playerA, address _playerB, GameInfo calldata _gameInfo) external payable {
         
-        RPSGame game = new RPSGame(_playerA, _playerB); 
+        RPSGame game = new RPSGame(_playerA, _playerB, _gameInfo); 
 
-        address gameAddress = address(game);
+        address payable gameAddress = payable(address(game));
 
         games[gameAddress] = game; 
 
         // add the game to games created
         userGames[_playerA].push(game);
+
+        uint _value = _gameInfo.playerAStake.value;
+
+        if (_gameInfo.isStaked) {
+
+            if (_gameInfo.playerAStake.stakeType == StakeType.isToken) {
+
+                IERC20(_gameInfo.playerAStake.tokenAddress).safeTransferFrom(msg.sender, gameAddress, _value);
+               
+            } else if (_gameInfo.playerAStake.stakeType == StakeType.isNFT) {
+            
+                IERC721(_gameInfo.playerAStake.tokenAddress).safeTransferFrom(msg.sender, gameAddress, _value);
+
+            } else if (_gameInfo.playerAStake.stakeType == StakeType.isNative) {
+            
+                if (_value != msg.value) revert StakeDonotMatch(); 
+
+                gameAddress.call{value: msg.value}("");
+            }
+
+        }
 
         emit CreateGame(_playerA, _playerB);
         
@@ -102,5 +127,15 @@ contract RPSGameFactory {
     function getUserGamesLength (address _user) external view returns(uint) {
         return userGames[_user].length;
     }
+
+    fallback() external payable {}
+    receive() external payable {}
+
+
+    /**************************************************************************/
+    /*************************** INTERNAL FUNCTIONS ***************************/
+    /**************************************************************************/
+
+
 
 }

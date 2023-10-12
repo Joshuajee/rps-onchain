@@ -2,6 +2,10 @@ import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import 'hardhat-abi-exporter';
 import 'hardhat-contract-sizer';
+import dotenv from 'dotenv'
+
+dotenv.config()
+
 // import "@nomiclabs/hardhat-etherscan";
 
 const PRIVATE_KEY = String(process.env.PRIVATE_KEY)
@@ -37,10 +41,14 @@ const config: HardhatUserConfig = {
 		// 	url: 'http://127.0.0.1:7545',
 		// 	accounts: [ PRIVATE_KEY_LOCAL ]
 		// },
+		polygon_zkevm: {
+			url: "https://rpc.public.zkevm-test.net",
+			accounts: [PRIVATE_KEY]
+		}
 		
 	},
 };
 
-
+//https://rpc.public.zkevm-test.net
 //HTTP://127.0.0.1:7545
 export default config;

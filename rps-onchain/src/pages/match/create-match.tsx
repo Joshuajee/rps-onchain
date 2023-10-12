@@ -8,6 +8,7 @@ import { Address, useAccount, useContractWrite } from "wagmi";
 import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
 import { useEffect, useState } from "react";
 import GameCreationModal from "@/components/modals/GameCreationModal";
+import { toast } from "react-toastify";
 
 export default function JoinMatch() {
 
@@ -17,16 +18,22 @@ export default function JoinMatch() {
 
   const opponentAddress = useInput("address")
 
+  const gameInfo = [
+    false,
+    [0, address, 10],
+    [0, address, 10]
+  ]
+
   const createGame = useContractWrite({
     address: MAIN_CONTRACT as Address,
     abi: RPSGameFactory,
     functionName: 'createGame',
-    args: [address, opponentAddress.value],
+    args: [address, opponentAddress.value, gameInfo],
   })
 
   useEffect(() => {
     if (createGame.isError) {
-      alert(createGame.error)
+      toast.error(createGame.error?.message)
     }
 
     if (createGame.isSuccess) {
@@ -62,9 +69,11 @@ export default function JoinMatch() {
           
       </Container>
 
-      { open && isConnected &&
+      { (open && isConnected) && 
         <GameCreationModal open={open} address={address as Address} />
       }
+
+      <GameCreationModal open={open} address={address as Address} />
 
     </Layout>
   )

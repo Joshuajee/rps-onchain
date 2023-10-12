@@ -10,6 +10,62 @@
         "internalType": "address",
         "name": "_playerB",
         "type": "address"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "isStaked",
+            "type": "bool"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum IRPSGameBase.StakeType",
+                "name": "stakeType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "tokenAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct IRPSGameBase.PlayerStake",
+            "name": "playerAStake",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum IRPSGameBase.StakeType",
+                "name": "stakeType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "tokenAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct IRPSGameBase.PlayerStake",
+            "name": "playerBStake",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct IRPSGameBase.GameInfo",
+        "name": "_gameInfo",
+        "type": "tuple"
       }
     ],
     "stateMutability": "nonpayable",
@@ -52,6 +108,11 @@
   },
   {
     "inputs": [],
+    "name": "StakeDonotMatch",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "UnAuthorized",
     "type": "error"
   },
@@ -73,6 +134,10 @@
     ],
     "name": "OwnershipTransferred",
     "type": "event"
+  },
+  {
+    "stateMutability": "payable",
+    "type": "fallback"
   },
   {
     "inputs": [],
@@ -152,12 +217,25 @@
   },
   {
     "inputs": [],
-    "name": "factory",
+    "name": "gameEnded",
     "outputs": [
       {
-        "internalType": "address",
+        "internalType": "bool",
         "name": "",
-        "type": "address"
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "gameStarted",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -213,7 +291,7 @@
     ],
     "name": "joinGame",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -318,5 +396,9 @@
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "stateMutability": "payable",
+    "type": "receive"
   }
 ]

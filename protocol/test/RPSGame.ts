@@ -18,10 +18,17 @@ describe("RPSGame", function () {
     // Contracts are deployed using the first signer/account by default
     const [playerA, playerB] = await ethers.getSigners();
 
+
+    const gameInfo: any = [
+      false,
+      [0, playerA.address, 10],
+      [0, playerA.address, 10]
+    ]
+
     const RPSGameFactory = await ethers.getContractFactory("RPSGameFactory");
     const rpsGameFactory = await RPSGameFactory.deploy();
 
-    await rpsGameFactory.createGame(playerA.address, playerB.address)
+    await rpsGameFactory.createGame(playerA.address, playerB.address, gameInfo)
 
     const rpsGameAddress = await rpsGameFactory.getUserGame(playerA.address, 0);
 
@@ -39,7 +46,13 @@ describe("RPSGame", function () {
     const RPSGameFactory = await ethers.getContractFactory("RPSGameFactory");
     const rpsGameFactory = await RPSGameFactory.deploy();
 
-    await rpsGameFactory.createGame(playerA.address, playerB.address)
+    const gameInfo: any = [
+      false,
+      [0, playerA.address, 10],
+      [0, playerA.address, 10]
+    ]
+
+    await rpsGameFactory.createGame(playerA.address, playerB.address, gameInfo)
 
     const rpsGameAddress = await rpsGameFactory.getUserGame(playerA.address, 0);
 
@@ -67,7 +80,13 @@ describe("RPSGame", function () {
       const RPSGameFactory = await ethers.getContractFactory("RPSGameFactory");
       const rpsGameFactory = await RPSGameFactory.deploy();
 
-      await rpsGameFactory.createGame(playerA.address, playerB.address)
+      const gameInfo: any = [
+        false,
+        [0, playerA.address, 10],
+        [0, playerA.address, 10]
+      ]
+
+      await rpsGameFactory.createGame(playerA.address, playerB.address, gameInfo)
 
       const rpsGameAddress = await rpsGameFactory.getUserGame(playerA.address, 0);
 
