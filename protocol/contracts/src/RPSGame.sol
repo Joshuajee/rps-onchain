@@ -46,6 +46,7 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
     GameInfo gameInfo;
 
     constructor(address _playerA, address _playerB, GameInfo memory _gameInfo) {
+        if (_playerA == _playerB) revert PlayerMustBeDifferent();
         playerA = _playerA;
         playerB = _playerB;
         gameInfo = _gameInfo;
@@ -59,7 +60,7 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
     function joinGame(address _playerB) external payable onlyOwner {
 
         gameStarted = true;
-        
+
         timeLeft = block.timestamp + GAME_TIMEOUT;
 
         GameInfo storage _gameInfo = gameInfo;
@@ -206,7 +207,7 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
 
 
     /**************************************************************************/
-    /**************************** HELPER FUNCTIONS ****************************/
+    /**************************** PUBLIC FUNCTIONS ****************************/
     /**************************************************************************/
 
     // Return 'true' if both players have commited a move, 'false' otherwise.
@@ -222,7 +223,7 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
 
     function encryptMove(Move _move, string memory _password) public pure returns (bytes32) {
         if (_move == Move(0)) revert InvalidMove();
-        return keccak256(abi.encodePacked(_password, _move));
+        return keccak256(abi.encode(_password, _move));
     }
 
 

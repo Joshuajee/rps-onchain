@@ -73,6 +73,11 @@
   },
   {
     "inputs": [],
+    "name": "AddressZero",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "CannotRevealNow",
     "type": "error"
   },
@@ -104,6 +109,11 @@
   {
     "inputs": [],
     "name": "OpponentHasNotJoined",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "PlayerMustBeDifferent",
     "type": "error"
   },
   {
@@ -223,6 +233,24 @@
         "internalType": "bool",
         "name": "",
         "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "gameResult",
+    "outputs": [
+      {
+        "internalType": "uint8",
+        "name": "playerA",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "playerB",
+        "type": "uint8"
       }
     ],
     "stateMutability": "view",

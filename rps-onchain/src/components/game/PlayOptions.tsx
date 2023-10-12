@@ -1,38 +1,109 @@
 import { PLAYER_MOVE } from "@/libs/constants"
 import OptionCard from "./OptionCard"
-import PlayerCard from "./PlayerCard";
 import { useContractWrite } from "wagmi";
 import { useRouter } from "next/router";
 import RPSGame from "@/abi/contracts/src/RPSGame.sol/RPSGame.json";
+import { useEffect, useState } from "react";
+import { ethers } from "ethers";
+import { toast } from "react-toastify";
+import GameButton from "../utils/GameButton";
 
 interface IProps {
-    play: (val: PLAYER_MOVE) => void;
     setPlayerMove: (val: PLAYER_MOVE) => void;
 }
 
-const PlayOptions = () => {
+const PlayOptions = (props: IProps) => {
 
     const router  = useRouter()
 
+    const { setPlayerMove: setPM } = props
+
+    const [hash, setHash] = useState<string| null>(null)
+    const [playerMove, setPlayerMove] = useState<PLAYER_MOVE| null>(null)
+
+    const contract = router.query.id as any
 
     const play = useContractWrite({
-        address: (router.query.id) as any,
+        address: contract,
         abi: RPSGame,
-        functionName: 'createGame',
-        args: [],
-        // chainId: originChainId,
+        functionName: 'play',
+        args: [hash],
     })
 
 
     const move = (move: PLAYER_MOVE) => {
-        play?.write?.()
+        
+        const abiCoder = new ethers.AbiCoder()
+        
+        const hash = ethers.keccak256(
+            abiCoder.encode(
+                ['string', 'uint'],
+                ['password', move],
+            )
+        )
+
+        localStorage.setItem(contract + "secret", hash)
+        localStorage.setItem(contract + "move", move.toString())
+
+        setHash(hash)
+
+        setPlayerMove(move)
     }
 
-    return  (
-        <div className="flex justify-center items-center gap-4 h-44 bg-gray-900 px-10 py-12 rounded-md">
+    const revealMove = useContractWrite({
+        address: (router.query.id) as any,
+        abi: RPSGame,
+        functionName: 'reveal',
+        args: [Number(localStorage.getItem(contract+'move')), "password"],
+    })
+
+    useEffect(() => {
+        setHash(localStorage.getItem(contract + "secret"))
+        setPM(Number(localStorage.getItem(contract + 'move')))
+    }, [setPM, contract])
+
+    useEffect(() => {
+        if (playerMove != PLAYER_MOVE.NONE) play?.write?.()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [playerMove])
+
+    useEffect(() => {
+        if (play.isError) {
+          toast.error(play.error?.message)
+        }
+    
+        if (play.isSuccess) {
+            setPM(playerMove as PLAYER_MOVE)
+        }
+    }, [play.isError, play.isSuccess, play.error, playerMove, setPM])
+
+    useEffect(() => {
+        if (revealMove.isError) {
+          toast.error(revealMove.error?.message)
+        }
+    
+        if (revealMove.isSuccess) {
+            //setPM(playerMove as PLAYER_MOVE)
+        }
+    }, [revealMove.isError, revealMove.isSuccess, revealMove.error])
+
+    const cards = (
+        <div className="flex justify-center items-center gap-4">
             <OptionCard onClick={move} card={PLAYER_MOVE.ROCK} />
             <OptionCard onClick={move} card={PLAYER_MOVE.PAPER} />
             <OptionCard onClick={move} card={PLAYER_MOVE.SCISSORS} />
+        </div>
+    )
+
+    const reveal = (
+        <div>
+            <GameButton onClick={revealMove.write} color="blue">Reveal Move</GameButton>
+        </div>
+    )
+
+    return  (
+        <div className="flex justify-center items-center h-44 bg-gray-900 px-10 py-12 rounded-md">
+            {hash ? reveal : cards}
         </div>
     )
 

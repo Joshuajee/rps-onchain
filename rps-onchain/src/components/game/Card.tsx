@@ -39,9 +39,8 @@ const Card = ({ card } : IProps) => {
     }
     
     return (
-        <div className="border-white border-[1px] h-12 w-20 md:h-full md:w-40 text-white justify-center items-center">
-            {/* <lottie-player src={link()}  background="transparent"  speed="1"  autoplay /> */}
-            <p> {name()} </p>
+        <div className="flex border-white border-[1px] h-12 w-20 md:h-full md:w-40 text-white justify-center items-center bg-blue-700">
+            <text> {name()} </text>
         </div>
     )
 }

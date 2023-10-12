@@ -1,45 +1,62 @@
 import Card from "@/components/game/Card";
 import PlayOptions from "@/components/game/PlayOptions";
-import Container from "@/components/utils/Container";
-import Layout from "@/components/utils/Layout";
 import { MAIN_CONTRACT, PLAYER_MOVE } from "@/libs/constants";
-import { Address, useContractRead } from "wagmi";
 import RPSGame from "@/abi/contracts/src/RPSGame.sol/RPSGame.json";
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { useRouter } from "next/router";
 import WaitingRoom from "@/components/game/WaitingRoom";
+import { Address, useContractRead } from "wagmi";
 
 export default function GameArena() {
 
     const router = useRouter()
 
-    const gameStarted = useContractRead({
+    const [playerMove, setPlayerMove] = useState(PLAYER_MOVE.NONE)
+    const [opponentMove, setOpponentMove] = useState(PLAYER_MOVE.NONE)
+
+    const gameResult =  useContractRead({
         address: router.query.id as Address,
         abi: RPSGame,
-        functionName: 'gameStarted',
+        functionName: 'getGameResult',
         watch: true,
+        //enabled: !started
     })
 
 
+
+    console.log(gameResult.data)
+
+
     return (   
-        <div data-aos="fade-up"  className="rounded-lg flex flex-col bg-red-800 h-[80vh] w-4/5">
+        <div style={{zIndex: 10}} data-aos="fade-in" className="rounded-lg flex flex-col bg-red-800 h-[60vh] md:h-[80vh] w-full md:w-4/5">
 
-            <div className="flex grow justify-between p-6">
+            <div className="flex grow justify-between p-2 md:p-6">
 
-                <Card card={PLAYER_MOVE.PAPER} />
+                <div>
+                    {
+                        (playerMove != PLAYER_MOVE.NONE) &&  
+                            <div data-aos="fade-up" className="h-full">
+                                <Card card={playerMove} />
+                            </div>
+                    }
+                </div>
 
-            <div>
 
 
-            </div>
-
-                <Card card={PLAYER_MOVE.SCISSORS} />
+                <div>
+                    {
+                        (opponentMove != PLAYER_MOVE.NONE) &&  
+                            <div data-aos="fade-down" className="h-full">
+                                <Card card={opponentMove} />
+                            </div>
+                    }
+                </div>
 
             </div>
 
             <div className="p-6">
 
-                <PlayOptions />
+                <PlayOptions setPlayerMove={setPlayerMove} />
 
             </div>
         

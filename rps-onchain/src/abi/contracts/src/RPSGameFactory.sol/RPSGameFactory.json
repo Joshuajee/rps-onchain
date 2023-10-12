@@ -6,6 +6,11 @@
   },
   {
     "inputs": [],
+    "name": "AddressZero",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "StakeDonotMatch",
     "type": "error"
   },

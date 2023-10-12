@@ -19,5 +19,6 @@ interface IRPSGameBase {
 
 
     error StakeDonotMatch();
+    error AddressZero();
   
 }
