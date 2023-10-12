@@ -5,7 +5,7 @@ import  { RxCaretDown } from 'react-icons/rx'
 import { useState } from 'react'
 import ConnectionInfo from './connectionInfo'
 import WalletOptions from './walletsOptions'
-import ModalWrapper from '../utils/ModalWrapper'
+import ModalWrapper from '../modals/ModalWrapper'
 
 
 

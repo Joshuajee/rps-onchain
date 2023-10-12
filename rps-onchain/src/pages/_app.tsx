@@ -7,15 +7,19 @@ import { InjectedConnector } from 'wagmi/connectors/injected'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { WagmiConfig, createConfig, mainnet } from 'wagmi'
-import { createPublicClient, http } from 'viem'
+import { WagmiConfig, configureChains, createConfig, sepolia } from 'wagmi'
+import { polygonZkEvmTestnet, scrollTestnet, hardhat } from 'wagmi/chains'
+import { createPublicClient, http } from 'viem';
+ 
+const { publicClient, webSocketPublicClient } = configureChains(
+  [sepolia, polygonZkEvmTestnet, scrollTestnet, hardhat],
+  [publicProvider()],
+)
  
 const config = createConfig({
   autoConnect: true,
-  publicClient: createPublicClient({
-    chain: mainnet,
-    transport: http()
-  }),
+  publicClient,
+  webSocketPublicClient,
 })
 
 export default function App({ Component, pageProps }: AppProps) {
