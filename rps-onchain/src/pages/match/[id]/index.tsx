@@ -34,7 +34,7 @@ export default function Match() {
 
             <Container>
 
-                <div data-aos="fade-up" className='flex flex-grow flex-col justify-center items-center text-white  w-full'>
+                <div className='flex flex-grow flex-col justify-center items-center text-white  w-full'>
 
                     {   gameStarted.data === true ? <GameArena /> : <WaitingRoom /> }
 

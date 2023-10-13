@@ -60,7 +60,10 @@ contract RPSGameFactory is IRPSGameBase {
             
                 if (_value != msg.value) revert StakeDonotMatch(); 
 
-                gameAddress.call{value: msg.value}("");
+                (bool _status, ) = payable(gameAddress).call{value: msg.value}("");
+
+                if (!_status) revert TranseferFailed();
+            
             }
 
         }
@@ -70,11 +73,34 @@ contract RPSGameFactory is IRPSGameBase {
     }
 
 
-    function joinGame(address payable _gameAddress) external {
+    function joinGame(address payable _gameAddress) payable external {
 
         address _playerB = msg.sender;
 
         RPSGame game = RPSGame(_gameAddress);
+
+        GameInfo memory _gameInfo = game.getGameInfo();
+
+        uint _value = _gameInfo.playerBStake.value;
+
+        if (_gameInfo.isStaked) {
+
+            if (_gameInfo.playerBStake.stakeType == StakeType.isToken) {
+
+                IERC20(_gameInfo.playerBStake.tokenAddress).safeTransferFrom(msg.sender, address(this), _value);
+               
+            } else if (_gameInfo.playerBStake.stakeType == StakeType.isNFT) {
+            
+                IERC721(_gameInfo.playerBStake.tokenAddress).safeTransferFrom(msg.sender, address(this), _value);
+
+            } else if (_gameInfo.playerBStake.stakeType == StakeType.isNative) {
+            
+                if (_value != msg.value) revert StakeDonotMatch(); 
+
+                address(_gameAddress).call{value: msg.value}("");
+            }
+
+        }
 
         game.joinGame(_playerB);
 
@@ -90,7 +116,6 @@ contract RPSGameFactory is IRPSGameBase {
         return userGames[_user][_index];
     }
 
-    
 
     function getUserGames (address _user, uint _start) external view returns(RPSGame[] memory) {
 
@@ -127,10 +152,6 @@ contract RPSGameFactory is IRPSGameBase {
     function getUserGamesLength (address _user) external view returns(uint) {
         return userGames[_user].length;
     }
-
-    fallback() external payable {}
-    receive() external payable {}
-
 
     /**************************************************************************/
     /*************************** INTERNAL FUNCTIONS ***************************/

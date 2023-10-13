@@ -73,6 +73,11 @@
   },
   {
     "inputs": [],
+    "name": "AddressZero",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "CannotRevealNow",
     "type": "error"
   },
@@ -108,7 +113,17 @@
   },
   {
     "inputs": [],
+    "name": "PlayerMustBeDifferent",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "StakeDonotMatch",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "TranseferFailed",
     "type": "error"
   },
   {
@@ -236,6 +251,70 @@
         "internalType": "bool",
         "name": "",
         "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getGameInfo",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "isStaked",
+            "type": "bool"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum IRPSGameBase.StakeType",
+                "name": "stakeType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "tokenAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct IRPSGameBase.PlayerStake",
+            "name": "playerAStake",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum IRPSGameBase.StakeType",
+                "name": "stakeType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "tokenAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct IRPSGameBase.PlayerStake",
+            "name": "playerBStake",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct IRPSGameBase.GameInfo",
+        "name": "",
+        "type": "tuple"
       }
     ],
     "stateMutability": "view",

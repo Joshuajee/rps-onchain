@@ -6,7 +6,17 @@
   },
   {
     "inputs": [],
+    "name": "AddressZero",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "StakeDonotMatch",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "TranseferFailed",
     "type": "error"
   },
   {
@@ -46,10 +56,6 @@
     ],
     "name": "JoinGame",
     "type": "event"
-  },
-  {
-    "stateMutability": "payable",
-    "type": "fallback"
   },
   {
     "inputs": [
@@ -221,7 +227,7 @@
     ],
     "name": "joinGame",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -260,9 +266,5 @@
     ],
     "stateMutability": "view",
     "type": "function"
-  },
-  {
-    "stateMutability": "payable",
-    "type": "receive"
   }
 ]

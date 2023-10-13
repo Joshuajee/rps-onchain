@@ -42,10 +42,11 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
         uint8 playerB;
     }
 
-    GameResult gameResult;
-    GameInfo gameInfo;
+    GameResult private gameResult;
+    GameInfo private gameInfo;
 
     constructor(address _playerA, address _playerB, GameInfo memory _gameInfo) {
+        if (_playerA == _playerB) revert PlayerMustBeDifferent();
         playerA = _playerA;
         playerB = _playerB;
         gameInfo = _gameInfo;
@@ -59,31 +60,12 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
     function joinGame(address _playerB) external payable onlyOwner {
 
         gameStarted = true;
-        
+
         timeLeft = block.timestamp + GAME_TIMEOUT;
 
         GameInfo storage _gameInfo = gameInfo;
 
         uint _value = _gameInfo.playerAStake.value;
-        
-        if (_gameInfo.isStaked) {
-
-            if (_gameInfo.playerAStake.stakeType == StakeType.isToken) {
-
-                IERC20(_gameInfo.playerAStake.tokenAddress).safeTransferFrom(msg.sender, address(this), _value);
-               
-            } else if (_gameInfo.playerAStake.stakeType == StakeType.isNFT) {
-            
-                IERC721(_gameInfo.playerAStake.tokenAddress).safeTransferFrom(msg.sender, address(this), _value);
-
-            } else if (_gameInfo.playerAStake.stakeType == StakeType.isNative) {
-            
-                if (_value != msg.value) revert StakeDonotMatch(); 
-
-                address(this).call{value: msg.value}("");
-            }
-
-        }
     
     }
 
@@ -121,7 +103,7 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
         timeLeft = block.timestamp + GAME_TIMEOUT;
     }
 
-    function claimPrize(address _winner) external {
+    function claimPrize(address _winner) external onlyOwner {
 
         if(!gameEnded) revert GameNotOver();
 
@@ -137,9 +119,13 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
         return gameResult; 
     }
 
+    function getGameInfo() external view returns(GameInfo memory) {
+        return gameInfo; 
+    }
+
     fallback() external payable {}
     receive() external payable {}
-
+    
 
     /**************************************************************************/
     /*************************** INTERNAL FUNCTIONS ***************************/
@@ -204,9 +190,34 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
         if (_point > 1) gameEnded = true;
     }
 
+    function _claim(address _winner) internal {
+        GameInfo memory _gameInfo = gameInfo;
+
+        if (_gameInfo.isStaked) {
+            _transferPrize(_winner, _gameInfo.playerAStake);
+            _transferPrize(_winner, _gameInfo.playerBStake);
+        }
+
+    }
+
+    function _transferPrize(address _winner, PlayerStake memory _playerStake) internal {
+
+        address _tokenAddress = _playerStake.tokenAddress;
+        uint _value = _playerStake.value; 
+        StakeType _stakeType =  _playerStake.stakeType;
+
+        if (_stakeType == StakeType.isToken) {
+            IERC20(_tokenAddress).safeTransfer(_winner, _value);
+        } else if (_stakeType == StakeType.isNFT) {
+            IERC721(_tokenAddress).safeTransferFrom(address(this), _winner, _value);
+        } else if (_stakeType == StakeType.isNative) {
+            payable(_winner).call{ value: _value }("");
+        }
+    
+    }
 
     /**************************************************************************/
-    /**************************** HELPER FUNCTIONS ****************************/
+    /**************************** PUBLIC FUNCTIONS ****************************/
     /**************************************************************************/
 
     // Return 'true' if both players have commited a move, 'false' otherwise.
@@ -222,7 +233,7 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
 
     function encryptMove(Move _move, string memory _password) public pure returns (bytes32) {
         if (_move == Move(0)) revert InvalidMove();
-        return keccak256(abi.encodePacked(_password, _move));
+        return keccak256(abi.encode(_password, _move));
     }
 
 

@@ -48,7 +48,7 @@ export default function JoinMatch() {
 
       <Container>
 
-        <div data-aos="fade-up" className='flex flex-grow flex-col justify-center items-center text-white w-full'>
+        <div className='flex flex-grow flex-col justify-center items-center text-white w-full'>
 
           <div className="max-w-lg w-full">
 

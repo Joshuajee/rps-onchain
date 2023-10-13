@@ -18,7 +18,7 @@ const Navbar = () => {
     return (
         <nav className={`${trigger && "shadow-lg backdrop-blur-xl bg-blue/50 z-10"} fixed w-full flex justify-between py-4 px-2 md:px-10`}>
 
-            <div className="text-gray-800  font-bold text-md md:text-2xl">RPS-onchain</div>
+            <Link href={"/"} className="text-gray-800  font-bold text-md md:text-2xl">RPS-onchain</Link>
 
             {/* <ul className="flex items-center text-[#8892B0] text-xs">
 

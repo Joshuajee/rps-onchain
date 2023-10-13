@@ -110,26 +110,6 @@ export const getDate = () => {
 
 }
 
-// export const isEthAddress = (address: Address) => {
-//     return ethers.utils.isAddress(address)
-// }
-
-// export const convertToEther = (price: number | BigNumber) => {
-//     if (!price) return 0
-//     return (ethers.utils.formatUnits(price.toString(), 'ether')).toString()
-// }
-
-// export const convertToWEI = (amount: number) => {
-//     if (!amount) return 0
-//     if (amount < MIN_AMOUNT) return 0
-//     return Number(amount) <= 0 ? 0 : ethers.utils.parseUnits(amount.toString(), 'ether')
-// }
-
-// export const  removeDecimal = (price: number, dicimal: number) => {
-//     if (!price) return 0
-//     return (ethers.utils.formatUnits(price.toString(), dicimal)).toString()
-// }
-
 
 export const dateToTimeStamp = (date: Date) => {
     return new Date(date).getTime() / 1000
@@ -180,22 +160,15 @@ export const supportedNetworks : SUPPORTED_NETWORKS [] = [
     }
 ]
 
+export function encodePacked(params = []){
 
-// export const getPrice = (amountIn: number, reserve1: BigNumber, reserve2: BigNumber): number => {
+    let types: any[] = []
+    let values: any[] = []
 
-//     if (amountIn <= 0) return 0
+    params.forEach(itemArray => {
+        types.push(itemArray[0])
+        values.push(itemArray[1])
+    })
 
-//     const amount = BigNumber.from(convertToWEI(amountIn))
-
-//     const num = reserve1.mul(amount)
-
-//     const dem = reserve2.add(amount)
-
-//     return Number(convertToEther(num.div(dem)))
-// }
-
-// export const getPriceRatio = (reserve1: BigNumber, reserve2: BigNumber) : BigNumber  => {
-//     if (reserve1.gt(reserve2)) return reserve1.div(reserve2)
-//     return  BigNumber.from(1).div(reserve2.div(reserve1))
-// }
-
+    return ethers.solidityPacked(types, values)
+}
