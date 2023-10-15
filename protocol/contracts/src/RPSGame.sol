@@ -63,10 +63,6 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
 
         timeLeft = block.timestamp + GAME_TIMEOUT;
 
-        GameInfo storage _gameInfo = gameInfo;
-
-        uint _value = _gameInfo.playerAStake.value;
-    
     }
 
     // Save player's encrypted move.
@@ -107,10 +103,12 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
 
         if(!gameEnded) revert GameNotOver();
 
-        if (_winner == playerA) {
-
-        } else  if (_winner == playerB) {
-
+        if (_winner == playerA && gameResult.playerA > 1) {
+            _claim(_winner);
+        } else  if (_winner == playerB && gameResult.playerB > 1) {
+            _claim(_winner);
+        } else {
+            revert YouDidnotWinThisMatch();
         }
 
     }
@@ -184,7 +182,7 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
     }
 
     function _playerBWon() internal {
-        uint8 _point = gameResult.playerA + 1;
+        uint8 _point = gameResult.playerB + 1;
         gameResult.outcome.push(Outcome.PlayerB);
         gameResult.playerB = _point;
         if (_point > 1) gameEnded = true;

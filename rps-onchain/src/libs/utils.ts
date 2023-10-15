@@ -13,9 +13,6 @@ export const dollarFormat = (amount: number) => {
     }).format(amount)
 }
 
-export const contractAddress = process.env.NEXT_PUBLIC_CONTRACT
-
-
 export const networkNameByChainId = (chainId: number) => {
 
     switch (chainId) {
@@ -171,4 +168,9 @@ export function encodePacked(params = []){
     })
 
     return ethers.solidityPacked(types, values)
+}
+
+
+export function setStorage(gameAddress: Address) {
+
 }

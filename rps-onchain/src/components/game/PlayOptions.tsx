@@ -1,14 +1,16 @@
 import { PLAYER_MOVE } from "@/libs/constants"
 import OptionCard from "./OptionCard"
-import { useContractWrite } from "wagmi";
+import { Address, useContractWrite } from "wagmi";
 import { useRouter } from "next/router";
 import RPSGame from "@/abi/contracts/src/RPSGame.sol/RPSGame.json";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { toast } from "react-toastify";
 import GameButton from "../utils/GameButton";
+import { setLocalHash, setLocalMove } from "./utils";
 
 interface IProps {
+    playerMove: PLAYER_MOVE;
     setPlayerMove: (val: PLAYER_MOVE) => void;
 }
 
@@ -16,7 +18,9 @@ const PlayOptions = (props: IProps) => {
 
     const router  = useRouter()
 
-    const { setPlayerMove: setPM } = props
+    const gameAddress = router.query.id as Address
+
+    const { playerMove: PM, setPlayerMove: setPM } = props
 
     const [hash, setHash] = useState<string| null>(null)
     const [playerMove, setPlayerMove] = useState<PLAYER_MOVE| null>(null)
@@ -42,12 +46,9 @@ const PlayOptions = (props: IProps) => {
             )
         )
 
-        localStorage.setItem(contract + "secret", hash)
-        localStorage.setItem(contract + "move", move.toString())
-
         setHash(hash)
-
         setPlayerMove(move)
+
     }
 
     const revealMove = useContractWrite({
@@ -72,9 +73,9 @@ const PlayOptions = (props: IProps) => {
           toast.error(play.error?.message)
         }
     
-        if (play.isSuccess) {
-            setPM(playerMove as PLAYER_MOVE)
-        }
+        // if (play.isSuccess) {
+        //     setPM(playerMove as PLAYER_MOVE)
+        // }
     }, [play.isError, play.isSuccess, play.error, playerMove, setPM])
 
     useEffect(() => {
@@ -86,6 +87,20 @@ const PlayOptions = (props: IProps) => {
             //setPM(playerMove as PLAYER_MOVE)
         }
     }, [revealMove.isError, revealMove.isSuccess, revealMove.error])
+
+
+    useEffect(() => {
+
+        if (play.isSuccess) {
+            setLocalMove(gameAddress, playerMove)
+            setLocalHash(gameAddress, hash)
+    
+            // setHash(hash)
+    
+            setPM(playerMove as PLAYER_MOVE)
+        }
+
+    }, [play.isSuccess, playerMove, contract, hash, gameAddress, setPM])
 
     const cards = (
         <div className="flex justify-center items-center gap-4">
@@ -103,7 +118,7 @@ const PlayOptions = (props: IProps) => {
 
     return  (
         <div className="flex justify-center items-center h-44 bg-gray-900 px-10 py-12 rounded-md">
-            {hash ? reveal : cards}
+            {PM ? reveal : cards}
         </div>
     )
 

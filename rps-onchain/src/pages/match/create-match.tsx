@@ -4,7 +4,7 @@ import Layout from "@/components/utils/Layout";
 import Web3btn from "@/components/utils/Web3btn";
 import useInput from "@/hooks/useInput";
 import { MAIN_CONTRACT } from "@/libs/constants";
-import { Address, useAccount, useContractWrite } from "wagmi";
+import { Address, useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
 import { useEffect, useState } from "react";
 import GameCreationModal from "@/components/modals/GameCreationModal";
@@ -31,16 +31,22 @@ export default function JoinMatch() {
     args: [address, opponentAddress.value, gameInfo],
   })
 
+  const { isSuccess} = useWaitForTransaction({
+    hash: createGame.data?.hash,
+  })
+
   useEffect(() => {
     if (createGame.isError) {
       toast.error(createGame.error?.message)
     }
 
-    if (createGame.isSuccess) {
+    if (isSuccess) {
       setOpen(true)
     }
-  }, [createGame.isError, createGame.isSuccess, createGame.error])
+  }, [createGame.isError, isSuccess, createGame.error])
 
+
+  console.log(isSuccess)
 
 
   return (

@@ -2,14 +2,17 @@ import Card from "@/components/game/Card";
 import PlayOptions from "@/components/game/PlayOptions";
 import { MAIN_CONTRACT, PLAYER_MOVE } from "@/libs/constants";
 import RPSGame from "@/abi/contracts/src/RPSGame.sol/RPSGame.json";
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useRouter } from "next/router";
 import WaitingRoom from "@/components/game/WaitingRoom";
 import { Address, useContractRead } from "wagmi";
+import { getLocalMove } from "./utils";
 
 export default function GameArena() {
 
     const router = useRouter()
+
+    const contract = router.query.id as any
 
     const [playerMove, setPlayerMove] = useState(PLAYER_MOVE.NONE)
     const [opponentMove, setOpponentMove] = useState(PLAYER_MOVE.NONE)
@@ -25,6 +28,11 @@ export default function GameArena() {
 
 
     console.log(gameResult.data)
+
+    useEffect(() => {
+        const move = getLocalMove(contract)
+        if (move) setPlayerMove(move)
+    }, [contract])
 
 
     return (   
@@ -56,7 +64,7 @@ export default function GameArena() {
 
             <div className="p-6">
 
-                <PlayOptions setPlayerMove={setPlayerMove} />
+                <PlayOptions playerMove={playerMove} setPlayerMove={setPlayerMove} />
 
             </div>
         

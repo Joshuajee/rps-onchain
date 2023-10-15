@@ -60,6 +60,19 @@
   {
     "inputs": [
       {
+        "internalType": "address payable",
+        "name": "_gameAddress",
+        "type": "address"
+      }
+    ],
+    "name": "claimPrize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "_playerA",
         "type": "address"

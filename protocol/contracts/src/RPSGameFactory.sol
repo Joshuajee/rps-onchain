@@ -153,6 +153,10 @@ contract RPSGameFactory is IRPSGameBase {
         return userGames[_user].length;
     }
 
+    function claimPrize(address payable _gameAddress) external {
+        RPSGame(_gameAddress).claimPrize(msg.sender);
+    }
+
     /**************************************************************************/
     /*************************** INTERNAL FUNCTIONS ***************************/
     /**************************************************************************/

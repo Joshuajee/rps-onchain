@@ -39,30 +39,6 @@ describe("RPSGame", function () {
     return { rpsGame, playerA, playerB };
   }
 
-  async function deployNo() {
-    // Contracts are deployed using the first signer/account by default
-    const [playerA, playerB] = await ethers.getSigners();
-
-    const RPSGameFactory = await ethers.getContractFactory("RPSGameFactory");
-    const rpsGameFactory = await RPSGameFactory.deploy();
-
-    const gameInfo: any = [
-      false,
-      [0, playerA.address, 10],
-      [0, playerA.address, 10]
-    ]
-
-    await rpsGameFactory.createGame(playerA.address, playerB.address, gameInfo)
-
-    const rpsGameAddress = await rpsGameFactory.getUserGame(playerA.address, 0);
-
-    await rpsGameFactory.connect(playerB).joinGame(rpsGameAddress)
-
-    const rpsGame = await ethers.getContractAt("RPSGame", rpsGameAddress);
-    
-    return { rpsGame, playerA, playerB };
-  }
-
   describe("Deployment No Stake", function () {
 
     it("Should set the right players", async function () {
