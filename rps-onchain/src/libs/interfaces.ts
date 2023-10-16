@@ -13,16 +13,3 @@ export interface SUPPORTED_NETWORKS {
     factoryAddress: FACTORY_ADDRESS,
     symbol: SUPPORTED_SYMBOLS;
 }
-
-
-export interface POSITION {
-    id: Address,
-    owner: Address,
-    amountIn1: BigNumberish,
-    amountIn2: BigNumberish,
-    availableFees: BigNumberish,
-    totalFees: BigNumberish
-    paid: Boolean,
-    tokenId: BigNumberish,
-    remoteDomain: number,
-}

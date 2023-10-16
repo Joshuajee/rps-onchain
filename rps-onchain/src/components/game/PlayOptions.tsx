@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { toast } from "react-toastify";
 import GameButton from "../utils/GameButton";
-import { setLocalHash, setLocalMove } from "./utils";
+import { chooseMoveFromInt, getLocalHash, getLocalMove, setLocalHash, setLocalMove } from "./utils";
 
 interface IProps {
     playerMove: PLAYER_MOVE;
@@ -25,10 +25,8 @@ const PlayOptions = (props: IProps) => {
     const [hash, setHash] = useState<string| null>(null)
     const [playerMove, setPlayerMove] = useState<PLAYER_MOVE| null>(null)
 
-    const contract = router.query.id as any
-
     const play = useContractWrite({
-        address: contract,
+        address: gameAddress,
         abi: RPSGame,
         functionName: 'play',
         args: [hash],
@@ -55,13 +53,13 @@ const PlayOptions = (props: IProps) => {
         address: (router.query.id) as any,
         abi: RPSGame,
         functionName: 'reveal',
-        args: [Number(localStorage.getItem(contract+'move')), "password"],
+        args: [PM, "password"],
     })
 
     useEffect(() => {
-        setHash(localStorage.getItem(contract + "secret"))
-        setPM(Number(localStorage.getItem(contract + 'move')))
-    }, [setPM, contract])
+        setHash(getLocalHash(gameAddress))
+        setPM(chooseMoveFromInt(Number(getLocalMove(gameAddress))))
+    }, [setPM, gameAddress])
 
     useEffect(() => {
         if (playerMove != PLAYER_MOVE.NONE) play?.write?.()
@@ -100,7 +98,9 @@ const PlayOptions = (props: IProps) => {
             setPM(playerMove as PLAYER_MOVE)
         }
 
-    }, [play.isSuccess, playerMove, contract, hash, gameAddress, setPM])
+    }, [play.isSuccess, playerMove, hash, gameAddress, setPM])
+
+    console.log(PM)
 
     const cards = (
         <div className="flex justify-center items-center gap-4">
@@ -112,7 +112,7 @@ const PlayOptions = (props: IProps) => {
 
     const reveal = (
         <div>
-            <GameButton onClick={revealMove.write} color="blue">Reveal Move</GameButton>
+            <GameButton disabled={false} onClick={revealMove.write} color="blue">Reveal Move</GameButton>
         </div>
     )
 

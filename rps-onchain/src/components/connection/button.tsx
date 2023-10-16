@@ -23,7 +23,7 @@ const ConnectionBtn = () => {
     }
 
     return (
-        <div className='text-xs md:text-base '>
+        <div style={{zIndex: 1000000}} className='text-xs md:text-base '>
 
             { !isConnected &&
                 <button 

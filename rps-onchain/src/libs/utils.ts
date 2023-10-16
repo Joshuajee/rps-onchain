@@ -1,4 +1,4 @@
-import { isAddress, ethers } from "ethers"
+import { ethers } from "ethers"
 import { Address } from "wagmi"
 import { CHAIN_ID, DOMAIN_ID, FACTORY_ADDRESS } from "./enums"
 import { SUPPORTED_NETWORKS } from "./interfaces"
@@ -168,9 +168,4 @@ export function encodePacked(params = []){
     })
 
     return ethers.solidityPacked(types, values)
-}
-
-
-export function setStorage(gameAddress: Address) {
-
 }

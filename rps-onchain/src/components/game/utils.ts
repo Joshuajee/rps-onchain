@@ -28,3 +28,29 @@ export function getLocalHash(gameAddress: Address) {
 export function getLocalMove(gameAddress: Address) : PLAYER_MOVE {
     return localStorage.getItem(gameAddress + CURRENT_MOVE) as any
 }
+
+export function deleteLocalSecret(gameAddress: Address) {
+    return localStorage.removeItem(gameAddress + CURRENT_SECRET)
+}
+
+export function deleteLocalHash(gameAddress: Address) {
+    return localStorage.removeItem(gameAddress + CURRENT_HASH)
+}
+
+export function deleteLocalMove(gameAddress: Address) : PLAYER_MOVE {
+    return localStorage.removeItem(gameAddress + CURRENT_MOVE) as any
+}
+
+export function chooseMoveFromInt(move: number) : PLAYER_MOVE {
+
+    if (move === 1) {
+        return PLAYER_MOVE.ROCK
+    } else if (move === 2) {
+        return PLAYER_MOVE.PAPER
+    } else if (move === 3) {
+        return PLAYER_MOVE.SCISSORS
+    }
+
+    return PLAYER_MOVE.NONE
+
+}

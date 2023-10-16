@@ -24,12 +24,14 @@ const ConnectionInfo = (props: IProps) => {
         toast.success("Address copied to clipboard")
     }
 
+    if (!show) return <></>
+
     return (
         <div className={`${show ? "" : "hidden"}`}>
 
             <div onClick={close} className='fixed top-0 left-0 w-screen h-screen'></div>
 
-            <div className={`absolute shadow-2xl rounded-sm right-4 md:right-10 top-16 w-4/5 bg-white max-w-[400px] z-10 text-gray-700`}>
+            <div className={`absolute shadow-2xl rounded-sm right-4 md:right-10 top-16 w-4/5 bg-white max-w-[400px] text-gray-700`}>
                 
                 <h2 className='border-b-2 text-sm p-2 border-r-slate-300'>ACTIVE ACCOUNT</h2>
 

@@ -5,10 +5,11 @@ import { toast } from "react-toastify"
 interface IProps {
     children: ReactNode
     onClick: () => void
-    color: string
+    color: string;
+    disabled?: boolean;
 }
 
-const GameButton = ({ children, onClick, color}: IProps) => {
+const GameButton = ({ children, onClick, color, disabled }: IProps) => {
 
 
     const click = () => {
@@ -21,6 +22,7 @@ const GameButton = ({ children, onClick, color}: IProps) => {
             case "blue":
                 return (
                     <button 
+                        disabled={disabled}
                         onClick={click} 
                         className={`my-2 rounded-2xl py-4 px-6 bg-blue-900 hover:bg-blue-800 w-80 max-w-40`}>
                         {children}
@@ -29,6 +31,7 @@ const GameButton = ({ children, onClick, color}: IProps) => {
             case "red":
                 return (
                     <button 
+                        disabled={disabled}
                         onClick={click} 
                         className={`my-2 rounded-2xl py-4 px-6 bg-red-900 hover:bg-red-800 w-80 max-w-40`}>
                         {children}
@@ -37,6 +40,7 @@ const GameButton = ({ children, onClick, color}: IProps) => {
             case "yellow":
                 return (
                     <button 
+                        disabled={disabled}
                         onClick={click} 
                         className={`my-2 rounded-2xl py-4 px-6 bg-yellow-900 hover:bg-yellow-800 w-80 max-w-40`}>
                         {children}
@@ -46,6 +50,7 @@ const GameButton = ({ children, onClick, color}: IProps) => {
             default:
                 return (
                     <button 
+                        disabled={disabled}
                         onClick={click} 
                         className={`my-2 rounded-2xl py-4 px-6 bg-gray-900 hover:bg-gray-800 w-80 max-w-40`}>
                         {children}

@@ -1,13 +1,7 @@
 import Link from "next/link"
 import { useScroll } from "@/hooks/windows"
-import { ROUTES } from "@/libs/enums"
 import Connection from "@/components/connection"
 
-const navs = [
-    { name: "Leaderboard", link: ROUTES.SWAP},
-    { name: "", link: ROUTES.POOLS},
-    { name: "Faucets", link: ROUTES.FAUCETS}
-]
 
 const Navbar = () => {
 
