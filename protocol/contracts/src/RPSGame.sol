@@ -57,7 +57,7 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
     /**************************** External Function ***************************/
     /**************************************************************************/
 
-    function joinGame(address _playerB) external payable onlyOwner {
+    function joinGame() external payable onlyOwner {
 
         gameStarted = true;
 

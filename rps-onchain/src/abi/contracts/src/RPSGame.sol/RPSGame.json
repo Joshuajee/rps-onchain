@@ -118,6 +118,11 @@
   },
   {
     "inputs": [],
+    "name": "PlayersAddressMustBeDifferent",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "StakeDonotMatch",
     "type": "error"
   },
@@ -366,13 +371,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_playerB",
-        "type": "address"
-      }
-    ],
+    "inputs": [],
     "name": "joinGame",
     "outputs": [],
     "stateMutability": "payable",

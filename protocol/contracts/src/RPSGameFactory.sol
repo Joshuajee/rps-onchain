@@ -35,6 +35,8 @@ contract RPSGameFactory is IRPSGameBase {
 
     function createGame(address _playerA, address _playerB, GameInfo calldata _gameInfo) external payable {
         
+        if (_playerA == _playerB) revert PlayersAddressMustBeDifferent();
+
         RPSGame game = new RPSGame(_playerA, _playerB, _gameInfo); 
 
         address payable gameAddress = payable(address(game));
@@ -102,7 +104,7 @@ contract RPSGameFactory is IRPSGameBase {
 
         }
 
-        game.joinGame(_playerB);
+        game.joinGame();
 
         // add to the game user games
         userGames[_playerB].push(game);
@@ -111,23 +113,22 @@ contract RPSGameFactory is IRPSGameBase {
         
     }
 
+    function claimPrize(address payable _gameAddress) external {
+        RPSGame(_gameAddress).claimPrize(msg.sender);
+        RPSPointToken(pointTokenAddress).mint(msg.sender, 10 ether);
+    }
+
 
     function getUserGame (address _user, uint _index) external view returns(RPSGame) {
         return userGames[_user][_index];
     }
 
 
-    function getUserGames (address _user, uint _start) external view returns(RPSGame[] memory) {
+    function getUserGames (address _user, uint _page) external view returns(RPSGame[] memory) {
 
         uint8 COUNT = 100;
-
-        uint256 _length = userGames[_user].length;
-
-        uint256 start = _start;
-
-        if (_start > _length) {
-            start = _length;
-        }
+        
+        uint256 start = _page * COUNT;
 
         uint end = start < COUNT ? 0 : start - COUNT;
 
@@ -153,9 +154,10 @@ contract RPSGameFactory is IRPSGameBase {
         return userGames[_user].length;
     }
 
-    function claimPrize(address payable _gameAddress) external {
-        RPSGame(_gameAddress).claimPrize(msg.sender);
+    function getRPSPTokenBalance(address _user) external view returns(uint) {
+        return RPSPointToken(pointTokenAddress).balanceOf(_user);
     }
+
 
     /**************************************************************************/
     /*************************** INTERNAL FUNCTIONS ***************************/

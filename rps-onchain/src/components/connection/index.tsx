@@ -1,4 +1,4 @@
-import { useAccount } from 'wagmi'
+import { Address, useAccount, useContractRead } from 'wagmi'
 import truncAddress from 'truncate-eth-address'
 import { AiOutlineWallet } from 'react-icons/ai'
 import  { RxCaretDown } from 'react-icons/rx'
@@ -6,6 +6,8 @@ import { useState } from 'react'
 import ConnectionInfo from './connectionInfo'
 import WalletOptions from './walletsOptions'
 import ModalWrapper from '../modals/ModalWrapper'
+import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
+import { MAIN_CONTRACT } from '@/libs/constants'
 
 
 
@@ -14,6 +16,15 @@ const Connection = () => {
     const { address, isConnected } = useAccount()
     const [show, setShow] = useState(false)
     const [showOptions, setShowOptions] = useState(false)
+
+    //getRPSPTokenBalance
+
+    const getRPSPTokenBalance = useContractRead({
+        address: MAIN_CONTRACT as Address,
+        abi: RPSGameFactory,
+        functionName: 'getRPSPTokenBalance',
+        args: [address],
+    })
 
     const close  = () => {
         setShow(false)
@@ -38,13 +49,22 @@ const Connection = () => {
             {
 
                 isConnected &&  (
-                    <div onClick={() => setShow(!show)} className='hover:cursor-pointer w-36 md:w-44 text-xs md:text-base flex items-center cursor-pointer'>
+                    <div className='flex items-center'>
 
-                        <AiOutlineWallet className='mr-2' size={"2em"} />
+                        <div className='ml-4'>
+                            <text> {Number(getRPSPTokenBalance.data || "0.0") } </text>
+                            <text>  RPST </text>
+                        </div>
 
-                        <span> {truncAddress(String(address))}  </span>    
+                        <div onClick={() => setShow(!show)} className='hover:cursor-pointer w-36 md:w-44 text-xs md:text-base flex items-center cursor-pointer'>
 
-                        <RxCaretDown className='ml-2' />
+                            <AiOutlineWallet className='mr-2' size={"2em"} />
+
+                            <span> {truncAddress(String(address))}  </span>    
+
+                            <RxCaretDown className='ml-2' />
+
+                        </div>
 
                     </div>
                 )

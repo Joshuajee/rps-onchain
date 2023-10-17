@@ -11,6 +11,11 @@
   },
   {
     "inputs": [],
+    "name": "PlayersAddressMustBeDifferent",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "StakeDonotMatch",
     "type": "error"
   },
@@ -169,6 +174,25 @@
         "internalType": "address",
         "name": "_user",
         "type": "address"
+      }
+    ],
+    "name": "getRPSPTokenBalance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_user",
+        "type": "address"
       },
       {
         "internalType": "uint256",
@@ -196,7 +220,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "_start",
+        "name": "_page",
         "type": "uint256"
       }
     ],

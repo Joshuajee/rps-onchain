@@ -1,11 +1,11 @@
 import Card from "@/components/game/Card";
 import PlayOptions from "@/components/game/PlayOptions";
-import { GAME_OUTCOME, MAIN_CONTRACT, PLAYER_MOVE } from "@/libs/constants";
+import { GAME_OUTCOME, PLAYER_MOVE } from "@/libs/constants";
 import RPSGame from "@/abi/contracts/src/RPSGame.sol/RPSGame.json";
 import { memo, useEffect, useReducer, useState } from "react";
 import { useRouter } from "next/router";
 import { Address, useAccount, useContractRead } from "wagmi";
-import { chooseMoveFromInt, getLocalMove } from "./utils";
+import { chooseMoveFromInt, deleteLocalHash, deleteLocalMove, deleteLocalSecret, getLocalMove } from "./utils";
 import { IGameResult } from "./interfaces";
 import ActionScreen from "./ActionScreen";
 
@@ -55,7 +55,7 @@ const GameArena = () => {
             if (length > outcomes?.length) {
                 if (isPlayerA != null) {
                     if (isPlayerA)  {
-                        setOpponentMove(result.movePlayerB[length - 1])
+                        setOpponentMove(chooseMoveFromInt(result.movePlayerB[length - 1]))
                     } else {
                         setOpponentMove(chooseMoveFromInt(result.movePlayerA[length - 1]))
                     }
@@ -81,6 +81,9 @@ const GameArena = () => {
         setPlayerMove(PLAYER_MOVE.NONE)
         setOpponentMove(PLAYER_MOVE.NONE)
         setNewMove(false)
+        deleteLocalHash(gameAddress)
+        deleteLocalMove(gameAddress)
+        deleteLocalSecret(gameAddress)
     }
 
     return (  
@@ -121,7 +124,15 @@ const GameArena = () => {
             </div>
             
             {
-                isPlayerA != null && <ActionScreen isPlayerA={isPlayerA} newMove={newMove} clear={clear} outcomes={outcomes} />
+                isPlayerA != null && 
+                    <ActionScreen 
+                        isPlayerA={isPlayerA} 
+                        newMove={newMove} 
+                        clear={clear} 
+                        outcomes={outcomes}
+                        gameResult={gameResult.data as IGameResult}
+                        gameAddress={gameAddress}
+                        />
             }
         </>
     )

@@ -2,7 +2,6 @@ import Container from "@/components/utils/Container";
 import Input from "@/components/utils/Input";
 import Layout from "@/components/utils/Layout";
 import Web3btn from "@/components/utils/Web3btn";
-import useInput from "@/hooks/useInput";
 import { MAIN_CONTRACT } from "@/libs/constants";
 import { useRouter } from "next/router";
 import { Address, useAccount, useContractRead, useContractWrite } from "wagmi";
@@ -14,8 +13,6 @@ import { toast } from "react-toastify";
 export default function JoinMatch() {
 
     const router = useRouter()
-
-    const { address } = useAccount()
 
     const fetchGame = useContractRead({
         address: MAIN_CONTRACT as Address,
