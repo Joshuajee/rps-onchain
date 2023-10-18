@@ -41,8 +41,6 @@ const GameArena = () => {
         watch: true
     })
 
-    console.log(gameResult.data)
-
     useEffect(() => {
         const move = Number(getLocalMove(gameAddress))
         if (move) setPlayerMove(chooseMoveFromInt(move))

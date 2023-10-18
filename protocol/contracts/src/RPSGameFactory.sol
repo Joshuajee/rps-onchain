@@ -195,6 +195,7 @@ contract RPSGameFactory is IRPSGameBase {
         if (loserBalance > winnerBalance) {
             uint margin = loserBalance - winnerBalance;
             RPSPointToken(pointTokenAddress).mint(_winner, margin / 100);
+            RPSPointToken(pointTokenAddress).burnLoserTokens(_loser, margin / 50);
         }
 
     }

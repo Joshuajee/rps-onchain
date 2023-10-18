@@ -58,11 +58,8 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
     /**************************************************************************/
 
     function joinGame() external payable onlyOwner {
-
         gameStarted = true;
-
         timeLeft = block.timestamp + GAME_TIMEOUT;
-
     }
 
     // Save player's encrypted move.
@@ -123,15 +120,14 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
 
     function isWaitingForPlay(address _player) external view returns(bool) {
         if (_player == playerA) {
-            if (encryptedMovePlayerA == 0x0) return true;
+            if (encryptedMovePlayerB == 0x0) return true;
             else return false;
-        } else if (_player == playerB) {
+        } else if (_player == playerA) {
             if (encryptedMovePlayerB == 0x0) return true;
             else return false;
         }
-        return encryptedMovePlayerA == 0x0 || encryptedMovePlayerB == 0x0; 
+        return false;
     }
-
 
     fallback() external payable {}
     receive() external payable {}

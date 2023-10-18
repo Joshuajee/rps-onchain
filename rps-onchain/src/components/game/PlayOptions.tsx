@@ -1,6 +1,6 @@
 import { PLAYER_MOVE } from "@/libs/constants"
 import OptionCard from "./OptionCard"
-import { Address, useContractWrite } from "wagmi";
+import { Address, useAccount, useContractRead, useContractWrite } from "wagmi";
 import { useRouter } from "next/router";
 import RPSGame from "@/abi/contracts/src/RPSGame.sol/RPSGame.json";
 import { useEffect, useState } from "react";
@@ -20,6 +20,8 @@ const PlayOptions = (props: IProps) => {
 
     const gameAddress = router.query.id as Address
 
+    const { address } = useAccount()
+
     const { playerMove: PM, setPlayerMove: setPM } = props
 
     const [hash, setHash] = useState<string| null>(null)
@@ -32,7 +34,14 @@ const PlayOptions = (props: IProps) => {
         args: [hash],
     })
 
-    //isWaitingForPlay
+
+    const isWaitingForPlay = useContractRead({
+        address: gameAddress,
+        abi: RPSGame,
+        functionName: 'isWaitingForPlay',
+        args: [address],
+        watch:true
+    })
 
 
     const move = (move: PLAYER_MOVE) => {
@@ -102,8 +111,6 @@ const PlayOptions = (props: IProps) => {
 
     }, [play.isSuccess, playerMove, hash, gameAddress, setPM])
 
-    console.log(PM)
-
     const cards = (
         <div className="flex justify-center items-center gap-4">
             <OptionCard onClick={move} card={PLAYER_MOVE.ROCK} />
@@ -113,14 +120,20 @@ const PlayOptions = (props: IProps) => {
     )
 
     const reveal = (
-        <div>
+        <div data-aos="slide-up">
             <GameButton disabled={false} onClick={revealMove.write} color="blue">Reveal Move</GameButton>
+        </div>
+    )
+
+    const waiting = (
+        <div data-aos="slide-up" className="text-xl">
+            Waiting for opponent move
         </div>
     )
 
     return  (
         <div className="flex justify-center items-center h-44 bg-gray-900 px-10 py-12 rounded-md">
-            {PM ? reveal : cards}
+            {PM ? isWaitingForPlay.data ? waiting : reveal : cards}
         </div>
     )
 

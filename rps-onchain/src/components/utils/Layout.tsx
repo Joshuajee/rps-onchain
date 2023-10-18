@@ -10,7 +10,7 @@ interface IProps {
 const Layout = (props: IProps) => {
 
     return (
-        <main className={`flex flex-col h-full min-h-screen`}>
+        <main suppressHydrationWarning className={`flex flex-col h-full min-h-screen`}>
             <Navbar />
 
             <div className='flex-grow bg-slate-50'>{props.children}</div>
