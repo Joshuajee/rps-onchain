@@ -121,6 +121,18 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
         return gameInfo; 
     }
 
+    function isWaitingForPlay(address _player) external view returns(bool) {
+        if (_player == playerA) {
+            if (encryptedMovePlayerA == 0x0) return true;
+            else return false;
+        } else if (_player == playerB) {
+            if (encryptedMovePlayerB == 0x0) return true;
+            else return false;
+        }
+        return encryptedMovePlayerA == 0x0 || encryptedMovePlayerB == 0x0; 
+    }
+
+
     fallback() external payable {}
     receive() external payable {}
     
@@ -218,16 +230,6 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
     /**************************** PUBLIC FUNCTIONS ****************************/
     /**************************************************************************/
 
-    // Return 'true' if both players have commited a move, 'false' otherwise.
-    function bothPlayed() public view returns (bool) {
-        return (encryptedMovePlayerA != 0x0 && encryptedMovePlayerB != 0x0);
-    }
-
-    // Return 'true' if both players have revealed their move, 'false' otherwise.
-    function bothRevealed() public view returns (bool) {
-        return (movePlayerA != Move.None && movePlayerB != Move.None);
-    }
-
 
     function encryptMove(Move _move, string memory _password) public pure returns (bytes32) {
         if (_move == Move(0)) revert InvalidMove();
@@ -242,6 +244,7 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
     modifier canPlayGame() {
         if (!gameStarted) revert OpponentHasNotJoined();
         if (gameEnded) revert GameOver();
+        if (block.timestamp > timeLeft) revert GameOver();
         _;
     }
 

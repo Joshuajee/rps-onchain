@@ -32,6 +32,8 @@ const PlayOptions = (props: IProps) => {
         args: [hash],
     })
 
+    //isWaitingForPlay
+
 
     const move = (move: PLAYER_MOVE) => {
         

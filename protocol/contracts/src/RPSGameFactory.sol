@@ -21,11 +21,21 @@ contract RPSGameFactory is IRPSGameBase {
     event CreateGame(address indexed playerA, address indexed game);
     event JoinGame(address indexed playerB, address indexed game);
 
+
+    struct GamerProfile {
+        uint wins;
+        uint loses;
+        uint uniqueWins;
+    }
+
     //recording games
     mapping(address => RPSGame) public games;
 
     // recording games user participated in
     mapping(address => RPSGame[]) public userGames;
+
+    // recording gamers profile
+    mapping(address => GamerProfile) public gamerProfile;
 
     address immutable public pointTokenAddress;
 
@@ -116,6 +126,12 @@ contract RPSGameFactory is IRPSGameBase {
     function claimPrize(address payable _gameAddress) external {
         RPSGame(_gameAddress).claimPrize(msg.sender);
         RPSPointToken(pointTokenAddress).mint(msg.sender, 10 ether);
+        address _playerA = RPSGame(_gameAddress).playerA();
+        address _playerB = RPSGame(_gameAddress).playerB();
+        address loserAddress = _playerA == msg.sender ? _playerB : _playerA;
+        _mintReward(msg.sender, loserAddress);
+        _updateGamerProfile(msg.sender, true);
+        _updateGamerProfile(loserAddress, false);
     }
 
 
@@ -163,6 +179,24 @@ contract RPSGameFactory is IRPSGameBase {
     /*************************** INTERNAL FUNCTIONS ***************************/
     /**************************************************************************/
 
+    function _updateGamerProfile(address _gamer, bool _isWinner) internal {
+        GamerProfile storage _gamerProfile = gamerProfile[_gamer];
+        if (_isWinner) {
+            _gamerProfile.wins = _gamerProfile.wins + 1;
+        } else {
+            _gamerProfile.loses = _gamerProfile.loses + 1;
+        }
+    }
 
+    function _mintReward(address _winner, address _loser) internal {
+        uint winnerBalance = IERC20(pointTokenAddress).balanceOf(_winner);
+        uint loserBalance = IERC20(pointTokenAddress).balanceOf(_loser);
+
+        if (loserBalance > winnerBalance) {
+            uint margin = loserBalance - winnerBalance;
+            RPSPointToken(pointTokenAddress).mint(_winner, margin / 100);
+        }
+
+    }
 
 }

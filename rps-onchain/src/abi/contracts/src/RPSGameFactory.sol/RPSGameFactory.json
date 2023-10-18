@@ -157,6 +157,35 @@
         "type": "address"
       }
     ],
+    "name": "gamerProfile",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "wins",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "loses",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "uniqueWins",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "name": "games",
     "outputs": [
       {

@@ -79,6 +79,8 @@ describe("RPSGame Testing Claim", function () {
 
             console.log(await provider.getBalance(playerB))
 
+            console.log(await rpsGameFactory.gamerProfile(playerA.address))
+
             //expect(await provider.getBalance(playerA)).to.increase(value + value)
 
         });
