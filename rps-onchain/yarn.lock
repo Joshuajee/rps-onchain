@@ -813,6 +813,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-toggle@^4.0.4":
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@types/react-toggle/-/react-toggle-4.0.4.tgz#20fe58494bdedba7133030d18c844e99e701ec68"
+  integrity sha512-eI7kFf8GIp8tRZaAvq0pFATy7zlAqlDCvGYkYVfl2arAKKAom9bHM3QvdVFsFUuvWseX/c7FkLG5CxAXF8psVw==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^18":
   version "18.2.25"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.25.tgz#99fa44154132979e870ff409dc5b6e67f06f0199"

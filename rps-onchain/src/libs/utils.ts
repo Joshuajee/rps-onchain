@@ -1,5 +1,4 @@
 import { ethers } from "ethers"
-import { Address } from "wagmi"
 import { CHAIN_ID, DOMAIN_ID, FACTORY_ADDRESS } from "./enums"
 import { SUPPORTED_NETWORKS } from "./interfaces"
 import { SUPPORTED_SYMBOLS } from "./types"
@@ -111,12 +110,6 @@ export const getDate = () => {
 export const dateToTimeStamp = (date: Date) => {
     return new Date(date).getTime() / 1000
 }
-
-export const isAddressZero = (address: Address) => {
-    if (address === "0x0000000000000000000000000000000000000000") return true
-    return false
-}
-
 
 export const supportedNetworks : SUPPORTED_NETWORKS [] = [
     {
