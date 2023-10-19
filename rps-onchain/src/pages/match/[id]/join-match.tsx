@@ -39,9 +39,6 @@ export default function JoinMatch() {
 
     }, [joinGame.isError, joinGame.isSuccess, joinGame.error, router])
 
-    console.log(fetchGame)
-
-
 
     return (
         <Layout>

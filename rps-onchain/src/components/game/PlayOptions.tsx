@@ -12,6 +12,7 @@ import { chooseMoveFromInt, getLocalHash, getLocalMove, setLocalHash, setLocalMo
 interface IProps {
     playerMove: PLAYER_MOVE;
     setPlayerMove: (val: PLAYER_MOVE) => void;
+    clearMove: boolean;
 }
 
 const PlayOptions = (props: IProps) => {
@@ -22,10 +23,10 @@ const PlayOptions = (props: IProps) => {
 
     const { address } = useAccount()
 
-    const { playerMove: PM, setPlayerMove: setPM } = props
+    const { playerMove: PM, setPlayerMove: setPM, clearMove } = props
 
     const [hash, setHash] = useState<string| null>(null)
-    const [playerMove, setPlayerMove] = useState<PLAYER_MOVE| null>(null)
+    const [playerMove, setPlayerMove] = useState<PLAYER_MOVE>(PLAYER_MOVE.NONE)
 
     const play = useContractWrite({
         address: gameAddress,
@@ -80,11 +81,13 @@ const PlayOptions = (props: IProps) => {
     useEffect(() => {
         if (play.isError) {
           toast.error(play.error?.message)
+          setPlayerMove(PLAYER_MOVE.NONE)
         }
     
-        // if (play.isSuccess) {
-        //     setPM(playerMove as PLAYER_MOVE)
-        // }
+        if (play.isSuccess) {
+            //setPM(playerMove as PLAYER_MOVE)
+            //setPlayerMove(PLAYER_MOVE.NONE)
+        }
     }, [play.isError, play.isSuccess, play.error, playerMove, setPM])
 
     useEffect(() => {
@@ -111,6 +114,10 @@ const PlayOptions = (props: IProps) => {
 
     }, [play.isSuccess, playerMove, hash, gameAddress, setPM])
 
+    useEffect(() => {
+        if (clearMove) setPlayerMove(PLAYER_MOVE.NONE)
+    }, [clearMove])
+
     const cards = (
         <div className="flex justify-center items-center gap-4">
             <OptionCard onClick={move} card={PLAYER_MOVE.ROCK} />
@@ -132,7 +139,7 @@ const PlayOptions = (props: IProps) => {
     )
 
     return  (
-        <div className="flex justify-center items-center h-44 bg-gray-900 px-10 py-12 rounded-md">
+        <div className="flex justify-center items-center h-24 md:h-44 bg-gray-900 xl:px-10 xl:py-12 rounded-md">
             {PM ? isWaitingForPlay.data ? waiting : reveal : cards}
         </div>
     )

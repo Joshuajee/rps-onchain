@@ -25,6 +25,8 @@ const GameArena = () => {
 
     const [isPlayerA, setIsPlayerA] = useState<boolean | null>(null)
 
+    const [clearMove, setClearMove] = useState<boolean>(false)
+
     const [newMove, setNewMove] = useState(false)
 
     const gameResult =  useContractRead({
@@ -75,6 +77,10 @@ const GameArena = () => {
         }
     }, [address, playerA.data])
 
+    useEffect(() => {
+        if (clearMove) setClearMove(false)
+    }, [clearMove])
+
     const clear = () => {
         setPlayerMove(PLAYER_MOVE.NONE)
         setOpponentMove(PLAYER_MOVE.NONE)
@@ -82,7 +88,9 @@ const GameArena = () => {
         deleteLocalHash(gameAddress)
         deleteLocalMove(gameAddress)
         deleteLocalSecret(gameAddress)
+        setClearMove(true)
     }
+
 
     return (  
         <> 
@@ -114,7 +122,7 @@ const GameArena = () => {
 
                 <div className="p-6">
 
-                    <PlayOptions playerMove={playerMove} setPlayerMove={setPlayerMove} />
+                    <PlayOptions playerMove={playerMove} setPlayerMove={setPlayerMove} clearMove={clearMove} />
 
                 </div>
             

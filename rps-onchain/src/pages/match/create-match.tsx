@@ -9,20 +9,32 @@ import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactor
 import { useEffect, useState } from "react";
 import GameCreationModal from "@/components/modals/GameCreationModal";
 import { toast } from "react-toastify";
+import { ethers } from "ethers";
+import GameStaker from "@/components/utils/GameStaker";
+
+export type IGameInfo = [
+  boolean,
+  [number, Address, number],
+  [number, Address, number]
+]
+
+const addressZero = ethers.ZeroAddress as Address
+
+const initalGameInfo: IGameInfo = [
+  false,
+  [0, addressZero, 10],
+  [0, addressZero, 10]
+]
 
 export default function JoinMatch() {
 
   const [open, setOpen] = useState(false)
 
+  const [gameInfo, setGameInfo] = useState<IGameInfo>(initalGameInfo)
+
   const { address, isConnected } = useAccount()
 
   const opponentAddress = useInput("address")
-
-  const gameInfo = [
-    false,
-    [0, address, 10],
-    [0, address, 10]
-  ]
 
   const createGame = useContractWrite({
     address: MAIN_CONTRACT as Address,
@@ -46,9 +58,6 @@ export default function JoinMatch() {
   }, [createGame.isError, isSuccess, createGame.error])
 
 
-  console.log(isSuccess)
-
-
   return (
     <Layout>
 
@@ -63,6 +72,17 @@ export default function JoinMatch() {
               value={opponentAddress.value}
               onChange={opponentAddress.setValue}
               type="text"/>
+
+            <div>
+
+            
+
+            </div>
+
+            <GameStaker />
+
+            <GameStaker />
+
 
 
             <Web3btn onClick={createGame.write} loading={createGame.isLoading}>

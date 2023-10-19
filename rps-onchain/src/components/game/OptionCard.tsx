@@ -13,7 +13,7 @@ const OptionCard = ({ card, onClick, aos }: IProps ) => {
     return (
         <button
             onClick={() => onClick?.(card)}
-            className="border-white border-[1px]  h-12 w-20 md:h-28 md:w-40 text-white"
+            className="border-white border-[1px] w-20  h-12 sm:w-40 md:h-28 md:w-40 text-white"
             data-aos={aos}
             >
             <PlayerCard move={card} />
