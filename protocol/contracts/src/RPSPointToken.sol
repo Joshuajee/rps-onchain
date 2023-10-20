@@ -24,17 +24,20 @@ contract RPSPointToken is ERC20, ERC20Burnable, Ownable, ERC20Permit {
     function transfer(address to, uint256 amount) override(ERC20) public onlyOwner returns(bool) {
         bool _success = ERC20.transfer(to, amount);
         emit TokenBalance(to, IERC20(address(this)).balanceOf(to));
+        emit TokenBalance(msg.sender, IERC20(address(this)).balanceOf(msg.sender));
         return _success;
     }
 
     function transferFrom(address from, address to, uint256 amount) override(ERC20) public onlyOwner returns(bool) {
         bool _success = ERC20.transferFrom(from, to, amount);
         emit TokenBalance(to, IERC20(address(this)).balanceOf(to));
+        emit TokenBalance(from, IERC20(address(this)).balanceOf(from));
         return _success;
     }
 
     function burnLoserTokens(address from, uint value) external onlyOwner {
         _burn(from, value);
+        emit TokenBalance(from, IERC20(address(this)).balanceOf(from));
     }
 
 

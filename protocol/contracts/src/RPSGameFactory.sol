@@ -4,6 +4,7 @@ pragma solidity  0.8.20;
 import { RPSPointToken } from './RPSPointToken.sol';
 import { RPSGame } from './RPSGame.sol';
 import { RPSGameDeployer } from './RPSGameDeployer.sol';
+import { RPSAchievementManager } from './RPSAchievementManager.sol';
 import { IRPSGameBase } from "../interface/IRPSGameBase.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
@@ -38,12 +39,17 @@ contract RPSGameFactory is IRPSGameBase {
     // recording gamers profile
     mapping(address => GamerProfile) public gamerProfile;
 
+    // recording game address defeated
+    mapping(address => mapping(address => bool)) public hasDefeated;
+
     address immutable public pointTokenAddress;
+    address immutable public achievementManagerAddress;
 
     address public deployerAddress;
 
     constructor() {
         pointTokenAddress = address(new RPSPointToken());
+        achievementManagerAddress = address(new RPSAchievementManager());
     }
 
     function setDeployerAddress(address _deployer) external {
@@ -124,7 +130,9 @@ contract RPSGameFactory is IRPSGameBase {
             
                 if (_value != msg.value) revert StakeDonotMatch(); 
 
-                address(_gameAddress).call{value: msg.value}("");
+                (bool _success, ) = address(_gameAddress).call{value: msg.value}("");
+
+                if (!_success) revert TranseferFailed();
             }
 
         }
@@ -211,6 +219,12 @@ contract RPSGameFactory is IRPSGameBase {
             uint margin = loserBalance - winnerBalance;
             RPSPointToken(pointTokenAddress).mint(_winner, margin / 100);
             RPSPointToken(pointTokenAddress).burnLoserTokens(_loser, margin / 50);
+        }
+
+
+        if (hasDefeated[_winner][_loser]) {
+            gamerProfile[_winner].uniqueWins += 1;
+            RPSAchievementManager(achievementManagerAddress).Reward(_winner, gamerProfile[_winner].uniqueWins);
         }
 
     }

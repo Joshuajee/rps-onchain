@@ -50,7 +50,7 @@ const GameCreationModal = ({ open, address } : { open: boolean, address: Address
     }
 
     return (
-        <ModalWrapper open={open} handleClose={handleClose}>
+        <ModalWrapper title="Game Created" open={open} handleClose={handleClose}>
             {fetchGameLength.isLoading || fetchGame.isLoading && <LoaderOne /> }
 
             {

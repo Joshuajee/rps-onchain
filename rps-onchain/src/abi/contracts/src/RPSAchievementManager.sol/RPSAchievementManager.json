@@ -1,0 +1,155 @@
+[
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_uniqueVictory",
+        "type": "uint256"
+      }
+    ],
+    "name": "Reward",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "token1",
+    "outputs": [
+      {
+        "internalType": "contract RPSNFTToken",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "token10",
+    "outputs": [
+      {
+        "internalType": "contract RPSNFTToken",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "token2",
+    "outputs": [
+      {
+        "internalType": "contract RPSNFTToken",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "token3",
+    "outputs": [
+      {
+        "internalType": "contract RPSNFTToken",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "token4",
+    "outputs": [
+      {
+        "internalType": "contract RPSNFTToken",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "token5",
+    "outputs": [
+      {
+        "internalType": "contract RPSNFTToken",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "token6",
+    "outputs": [
+      {
+        "internalType": "contract RPSNFTToken",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "token7",
+    "outputs": [
+      {
+        "internalType": "contract RPSNFTToken",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "token8",
+    "outputs": [
+      {
+        "internalType": "contract RPSNFTToken",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "token9",
+    "outputs": [
+      {
+        "internalType": "contract RPSNFTToken",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

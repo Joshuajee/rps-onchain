@@ -218,7 +218,8 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
         } else if (_stakeType == StakeType.isNFT) {
             IERC721(_tokenAddress).safeTransferFrom(address(this), _winner, _value);
         } else if (_stakeType == StakeType.isNative) {
-            payable(_winner).call{ value: _value }("");
+            (bool _success,) = payable(_winner).call{ value: _value }("");
+            if (_success) revert TranseferFailed();
         }
     
     }
