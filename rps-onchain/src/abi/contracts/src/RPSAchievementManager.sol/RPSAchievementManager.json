@@ -37,19 +37,6 @@
   },
   {
     "inputs": [],
-    "name": "token10",
-    "outputs": [
-      {
-        "internalType": "contract RPSNFTToken",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "token2",
     "outputs": [
       {

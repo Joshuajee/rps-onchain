@@ -147,7 +147,7 @@ contract RPSGameFactory is IRPSGameBase {
     }
 
     function claimPrize(address payable _gameAddress) external {
-        RPSGame(_gameAddress).claimPrize(msg.sender);
+        //RPSGame(_gameAddress).claimPrize(msg.sender);
         RPSPointToken(pointTokenAddress).mint(msg.sender, 10 ether);
         address _playerA = RPSGame(_gameAddress).playerA();
         address _playerB = RPSGame(_gameAddress).playerB();
@@ -222,7 +222,7 @@ contract RPSGameFactory is IRPSGameBase {
         }
 
 
-        if (hasDefeated[_winner][_loser]) {
+        if (!hasDefeated[_winner][_loser]) {
             gamerProfile[_winner].uniqueWins += 1;
             RPSAchievementManager(achievementManagerAddress).Reward(_winner, gamerProfile[_winner].uniqueWins);
         }

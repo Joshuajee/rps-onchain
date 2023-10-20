@@ -15,24 +15,26 @@ contract RPSAchievementManager {
     RPSNFTToken public immutable token7;
     RPSNFTToken public immutable token8;
     RPSNFTToken public immutable token9;
-    RPSNFTToken public immutable token10;
+    // RPSNFTToken public immutable token10;
+    // RPSNFTToken public immutable token11;
 
     constructor() {
-        token1 = new RPSNFTToken("", "", "");
-        token2 = new RPSNFTToken("", "", "");
-        token3 = new RPSNFTToken("", "", "");
-        token4 = new RPSNFTToken("", "", "");
-        token5 = new RPSNFTToken("", "", "");
-        token6 = new RPSNFTToken("", "", "");
-        token7 = new RPSNFTToken("", "", "");
-        token8 = new RPSNFTToken("", "", "");
-        token9 = new RPSNFTToken("", "", "");
-        token10 = new RPSNFTToken("", "", "");
+        token1 = new RPSNFTToken("RPS Battle Ready", "RPS-BR", "");
+        token2 = new RPSNFTToken("RPS Fighter", "RPS-F", "");
+        token3 = new RPSNFTToken("RPS Soldier", "RPS-S", "");
+        token4 = new RPSNFTToken("RPS Warrior", "RPS-W", "");
+        token5 = new RPSNFTToken("RPS Shogun", "RPS-Sh", "");
+        token6 = new RPSNFTToken("RPS Baron", "RPS-B", "");
+        token7 = new RPSNFTToken("RPS Warload", "RSP-WAR", "");
+        token8 = new RPSNFTToken("RPS General", "RPS-GEN", "");
+        token9 = new RPSNFTToken("RPS King", "RPS-K", "");
+        // token10 = new RPSNFTToken("RPS Emperor", "RPS-EMP", "");
+        // token11 = new RPSNFTToken("RPS Immortal", "RPS-IMM", "");
     }
 
 
     function Reward(address to, uint _uniqueVictory) external {
-
+        
         if (_uniqueVictory == 1) {
             token1.safeMint(to);
         }   else if (_uniqueVictory == 5) {
@@ -52,7 +54,7 @@ contract RPSAchievementManager {
         }   else if (_uniqueVictory == 390625) {
             token9.safeMint(to);
         }   else if (_uniqueVictory == 1953125) {
-            token10.safeMint(to);
+            //token10.safeMint(to);
         }
 
     }
