@@ -8,15 +8,19 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract RPSNFTToken is ERC721, ERC721Burnable, Ownable {
     uint256 private _nextTokenId;
 
-    // string private immutable tokenURI;
+    string private tokenUri;
 
     constructor(string memory _name, string memory _symbol, string memory _tokenURI)  ERC721(_name, _symbol) Ownable()   {
-        // tokenURI = _tokenURI;
+        tokenUri = _tokenURI;
     }
 
     function safeMint(address to) public onlyOwner {
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);
+    }
+
+    function tokenURI(uint256 tokenId) public view override returns (string memory) {
+        return tokenUri;
     }
 
 }
