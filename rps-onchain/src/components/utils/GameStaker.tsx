@@ -21,7 +21,7 @@ const GameStaker = (props: IProps) => {
 
     const { setStakeInfo } = props
 
-    const [assetType, setAssetType] = useState<ASSET_TYPE>(ASSET_TYPE.TOKEN)
+    const [assetType, setAssetType] = useState<ASSET_TYPE>(ASSET_TYPE.ETH)
 
     const tokenAddress = useInput("address")
     const value = useInput("text")
@@ -67,9 +67,9 @@ const GameStaker = (props: IProps) => {
             <label htmlFor="asset-type">Choose Asset Type</label>
 
             <select onChange={onSelect} id="asset-type" className="min-w-48 h-12 p-4 my-2 rounded-lg outline-none w-full" >
+                <option value={"2"}> ETH </option>
                 <option value={"0"}> ERC20 Token </option>
                 <option value={"1"}> ERC721 NFT </option>
-                <option value={"2"}> ETH </option>
             </select>
 
             {

@@ -1,0 +1,107 @@
+[
+  {
+    "inputs": [],
+    "name": "AddressZero",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "PlayersAddressMustBeDifferent",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "StakeDonotMatch",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "TranseferFailed",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_factory",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_playerA",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_playerB",
+        "type": "address"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "isStaked",
+            "type": "bool"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum IRPSGameBase.StakeType",
+                "name": "stakeType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "tokenAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct IRPSGameBase.PlayerStake",
+            "name": "playerAStake",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum IRPSGameBase.StakeType",
+                "name": "stakeType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "tokenAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct IRPSGameBase.PlayerStake",
+            "name": "playerBStake",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct IRPSGameBase.GameInfo",
+        "name": "_gameInfo",
+        "type": "tuple"
+      }
+    ],
+    "name": "deploy",
+    "outputs": [
+      {
+        "internalType": "contract RPSGame",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

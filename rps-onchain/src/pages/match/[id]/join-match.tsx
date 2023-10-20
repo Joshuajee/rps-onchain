@@ -31,7 +31,7 @@ export default function JoinMatch() {
         abi: RPSGameFactory,
         functionName: 'joinGame',
         args: [router.query.id],
-        value: playerBStake?.[2]
+        //value: playerBStake?.[2]
     })
 
     useEffect(() => {
