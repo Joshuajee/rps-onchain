@@ -8,6 +8,7 @@ import WalletOptions from './walletsOptions'
 import ModalWrapper from '../modals/ModalWrapper'
 import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
 import { MAIN_CONTRACT } from '@/libs/constants'
+import convert from 'ethereum-unit-converter'
 
 
 
@@ -51,8 +52,8 @@ const Connection = () => {
                 isConnected &&  (
                     <div className='flex items-center'>
 
-                        <div className='ml-4'>
-                            <text> {Number(getRPSPTokenBalance.data || "0.0") } </text>
+                        <div className='ml-6'>
+                            <text> { convert(Number(getRPSPTokenBalance.data || "0.0"), "wei").ether } </text>
                             <text>  RPST </text>
                         </div>
 

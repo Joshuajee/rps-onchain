@@ -3,6 +3,7 @@ pragma solidity  0.8.20;
 
 import { RPSPointToken } from './RPSPointToken.sol';
 import { RPSGame } from './RPSGame.sol';
+import { RPSGameDeployer } from './RPSGameDeployer.sol';
 import { IRPSGameBase } from "../interface/IRPSGameBase.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
@@ -39,15 +40,21 @@ contract RPSGameFactory is IRPSGameBase {
 
     address immutable public pointTokenAddress;
 
+    address public deployerAddress;
+
     constructor() {
         pointTokenAddress = address(new RPSPointToken());
+    }
+
+    function setDeployerAddress(address _deployer) external {
+        deployerAddress = _deployer;
     }
 
     function createGame(address _playerA, address _playerB, GameInfo calldata _gameInfo) external payable {
         
         if (_playerA == _playerB) revert PlayersAddressMustBeDifferent();
 
-        RPSGame game = new RPSGame(_playerA, _playerB, _gameInfo); 
+        RPSGame game = RPSGame(RPSGameDeployer(deployerAddress).deploy(address(this), _playerA, _playerB, _gameInfo)); 
 
         address payable gameAddress = payable(address(game));
 
@@ -62,9 +69,13 @@ contract RPSGameFactory is IRPSGameBase {
 
             if (_gameInfo.playerAStake.stakeType == StakeType.isToken) {
 
+                if (_gameInfo.playerAStake.tokenAddress == address(0)) revert AddressZero();
+
                 IERC20(_gameInfo.playerAStake.tokenAddress).safeTransferFrom(msg.sender, gameAddress, _value);
                
             } else if (_gameInfo.playerAStake.stakeType == StakeType.isNFT) {
+
+                if (_gameInfo.playerAStake.tokenAddress == address(0)) revert AddressZero();
             
                 IERC721(_gameInfo.playerAStake.tokenAddress).safeTransferFrom(msg.sender, gameAddress, _value);
 
@@ -99,10 +110,14 @@ contract RPSGameFactory is IRPSGameBase {
 
             if (_gameInfo.playerBStake.stakeType == StakeType.isToken) {
 
+                if (_gameInfo.playerAStake.tokenAddress == address(0)) revert AddressZero();
+
                 IERC20(_gameInfo.playerBStake.tokenAddress).safeTransferFrom(msg.sender, address(this), _value);
                
             } else if (_gameInfo.playerBStake.stakeType == StakeType.isNFT) {
             
+                if (_gameInfo.playerAStake.tokenAddress == address(0)) revert AddressZero();
+
                 IERC721(_gameInfo.playerBStake.tokenAddress).safeTransferFrom(msg.sender, address(this), _value);
 
             } else if (_gameInfo.playerBStake.stakeType == StakeType.isNative) {

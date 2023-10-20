@@ -31,7 +31,7 @@ export default function JoinMatch() {
         abi: RPSGameFactory,
         functionName: 'joinGame',
         args: [router.query.id],
-        //value: playerBStake?.[2]
+        value: playerBStake?.value
     })
 
     useEffect(() => {
@@ -49,7 +49,6 @@ export default function JoinMatch() {
         setGameInfo(getGameInfo.data)
     }, [getGameInfo.data])
 
-    console.log(gameInfo)
 
     const assetType = (assetType: ASSET_TYPE) => {
         switch(assetType) {
@@ -91,13 +90,11 @@ export default function JoinMatch() {
                             ) 
                         }
 
-
                         <Web3btn onClick={joinGame.write} loading={joinGame.isLoading}>
                             Join Match
                         </Web3btn>
 
                     </div>
-
 
                 </div>
                 

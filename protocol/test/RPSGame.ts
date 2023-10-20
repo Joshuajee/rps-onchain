@@ -28,6 +28,14 @@ describe("RPSGame", function () {
     const RPSGameFactory = await ethers.getContractFactory("RPSGameFactory");
     const rpsGameFactory = await RPSGameFactory.deploy();
 
+    const RPSGameDeployer = await ethers.getContractFactory("RPSGameDeployer");
+    const rpsGameDeployer = await RPSGameDeployer.deploy();
+
+    await rpsGameDeployer.initialize(await rpsGameFactory.getAddress())
+
+    await rpsGameFactory.setDeployerAddress(await rpsGameDeployer.getAddress())
+
+
     await rpsGameFactory.createGame(playerA.address, playerB.address, gameInfo)
 
     const rpsGameAddress = await rpsGameFactory.getUserGame(playerA.address, 0);
@@ -55,6 +63,14 @@ describe("RPSGame", function () {
 
       const RPSGameFactory = await ethers.getContractFactory("RPSGameFactory");
       const rpsGameFactory = await RPSGameFactory.deploy();
+
+      const RPSGameDeployer = await ethers.getContractFactory("RPSGameDeployer");
+      const rpsGameDeployer = await RPSGameDeployer.deploy();
+  
+      await rpsGameDeployer.initialize(await rpsGameFactory.getAddress())
+  
+      await rpsGameFactory.setDeployerAddress(await rpsGameDeployer.getAddress())
+  
 
       const gameInfo: any = [
         false,

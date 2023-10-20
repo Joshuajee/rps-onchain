@@ -16,11 +16,20 @@ interface ITOKEN {
 
 contract RPSGameDeployer is IRPSGameBase {
 
+    address factory;
 
-    function deploy(address _factory, address _playerA, address _playerB, GameInfo calldata _gameInfo) external returns(RPSGame) {
-        
-        return new RPSGame(_playerA, _playerB, _gameInfo); 
-        
+    function initialize(address _factory) external {
+        if (factory != address(0)) revert AlreadyInitialized();
+        factory = _factory;
+    }
+
+    function deploy(address _factory, address _playerA, address _playerB, GameInfo calldata _gameInfo) isFactory external returns(RPSGame) {
+        return new RPSGame(_factory, _playerA, _playerB, _gameInfo); 
+    }
+
+    modifier isFactory() {
+        if (msg.sender != factory) revert CallerNotFactory();
+        _;
     }
 
 }

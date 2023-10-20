@@ -45,11 +45,12 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
     GameResult private gameResult;
     GameInfo private gameInfo;
 
-    constructor(address _playerA, address _playerB, GameInfo memory _gameInfo) {
+    constructor(address _factory, address _playerA, address _playerB, GameInfo memory _gameInfo) {
         if (_playerA == _playerB) revert PlayerMustBeDifferent();
         playerA = _playerA;
         playerB = _playerB;
         gameInfo = _gameInfo;
+        transferOwnership(_factory);
     }
 
 

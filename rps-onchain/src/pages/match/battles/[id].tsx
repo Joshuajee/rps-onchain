@@ -1,15 +1,11 @@
 import Container from "@/components/utils/Container";
-import Input from "@/components/utils/Input";
 import Layout from "@/components/utils/Layout";
-import Web3btn from "@/components/utils/Web3btn";
 import { MAIN_CONTRACT } from "@/libs/constants";
 import { useRouter } from "next/router";
 import { Address, useAccount, useContractRead, useContractWrite } from "wagmi";
 import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
 import { useEffect, useState } from "react";
-import GameCreationModal from "@/components/modals/GameCreationModal";
-import { toast } from "react-toastify";
-import Link from "next/link";
+
 
 export default function JoinMatch() {
 

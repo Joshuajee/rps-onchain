@@ -25,6 +25,13 @@ import {
     
         const RPSGameFactory = await ethers.getContractFactory("RPSGameFactory");
         const rpsGameFactory = await RPSGameFactory.deploy();
+
+        const RPSGameDeployer = await ethers.getContractFactory("RPSGameDeployer");
+        const rpsGameDeployer = await RPSGameDeployer.deploy();
+
+        await rpsGameDeployer.initialize(await rpsGameFactory.getAddress())
+
+        await rpsGameFactory.setDeployerAddress(await rpsGameDeployer.getAddress())
     
         return { rpsGameFactory, playerA, playerB, gameInfo };
     }

@@ -1,8 +1,5 @@
-import Card from "@/components/game/Card";
-import PlayOptions from "@/components/game/PlayOptions";
 import Container from "@/components/utils/Container";
 import Layout from "@/components/utils/Layout";
-import { MAIN_CONTRACT, PLAYER_MOVE } from "@/libs/constants";
 import { Address, useContractRead } from "wagmi";
 import RPSGame from "@/abi/contracts/src/RPSGame.sol/RPSGame.json";
 import { useEffect, useReducer, useState } from "react";

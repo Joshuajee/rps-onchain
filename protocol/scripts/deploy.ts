@@ -4,8 +4,21 @@ async function main() {
 
   const RPSGameFactory = await ethers.deployContract("RPSGameFactory");
 
-  console.log( await RPSGameFactory.getAddress())
+  const RPSGameDeployer = await ethers.deployContract("RPSGameDeployer");
 
+  const rpsGameFactoryAddr = await RPSGameFactory.getAddress();
+
+  const rpsGameDeployerAddr = await RPSGameDeployer.getAddress();
+
+  const rpsGameFactory = await ethers.getContractAt("RPSGameFactory", rpsGameFactoryAddr);
+
+  const rpsGameDeployer = await ethers.getContractAt("RPSGameDeployer", rpsGameDeployerAddr);
+
+  await rpsGameDeployer.initialize(await rpsGameFactory.getAddress())
+
+  await rpsGameFactory.setDeployerAddress(await rpsGameDeployer.getAddress())
+
+  console.log( await RPSGameFactory.getAddress())
 
 }
 
