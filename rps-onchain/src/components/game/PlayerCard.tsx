@@ -24,7 +24,6 @@ const PlayerCard = ({ move } : IProps) => {
     
     return (
         <div>
-            {/* <lottie-player src={link()}  background="transparent"  speed="1"  autoplay /> */}
             <p> {name()} </p>
         </div>
     )

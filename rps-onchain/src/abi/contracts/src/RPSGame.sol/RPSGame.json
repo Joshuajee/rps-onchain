@@ -3,6 +3,11 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "_factory",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
         "name": "_playerA",
         "type": "address"
       },
@@ -78,6 +83,16 @@
   },
   {
     "inputs": [],
+    "name": "AlreadyInitialized",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "CallerNotFactory",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "CannotRevealNow",
     "type": "error"
   },
@@ -118,6 +133,11 @@
   },
   {
     "inputs": [],
+    "name": "PlayersAddressMustBeDifferent",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "StakeDonotMatch",
     "type": "error"
   },
@@ -129,6 +149,11 @@
   {
     "inputs": [],
     "name": "UnAuthorized",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "YouDidnotWinThisMatch",
     "type": "error"
   },
   {
@@ -162,32 +187,6 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "bothPlayed",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "bothRevealed",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -364,10 +363,23 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_playerB",
+        "name": "_player",
         "type": "address"
       }
     ],
+    "name": "isWaitingForPlay",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "joinGame",
     "outputs": [],
     "stateMutability": "payable",

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import ModalWrapper from "./ModalWrapper"
 import { Address, useContractRead } from "wagmi"
-import { MAIN_CONTRACT } from "@/libs/constants"
+import { HOST, MAIN_CONTRACT } from "@/libs/constants"
 import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
 import LoaderOne from "../loaders/LoaderOne";
 import { useRouter } from "next/router";
@@ -45,12 +45,12 @@ const GameCreationModal = ({ open, address } : { open: boolean, address: Address
     }, [fetchGame.data, router])
 
     const copy = () => {
-        navigator.clipboard.writeText(link as string)
+        navigator.clipboard.writeText(HOST + (link as string))
         toast.info("Text copied to clipboard")
     }
 
     return (
-        <ModalWrapper open={open} handleClose={handleClose}>
+        <ModalWrapper title="Game Created" open={open} handleClose={handleClose}>
             {fetchGameLength.isLoading || fetchGame.isLoading && <LoaderOne /> }
 
             {

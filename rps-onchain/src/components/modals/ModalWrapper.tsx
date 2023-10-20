@@ -16,7 +16,7 @@ const ModalWrapper = (props: IProps) => {
     if (!open) return <></>
 
     return (
-        <div className="fixed top-0 left-0 h-screen w-screen z-10" style={{zIndex: 100000000}}>
+        <div className="fixed top-0 left-0 h-screen w-screen" style={{zIndex: "10000 !important" }}>
 
             <div className="fixed h-screen w-screen bg-slate-800 opacity-70"></div>
 

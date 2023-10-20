@@ -12,5 +12,5 @@ interface IRPSGame {
     error GameNotOver();
     error GameOver();
     error PlayerMustBeDifferent();
-  
+    error YouDidnotWinThisMatch();
 }

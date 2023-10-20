@@ -4,7 +4,7 @@ pragma solidity 0.8.20;
 
 interface IRPSGameBase {
 
-    enum StakeType {isToken, isNFT, isNative}
+    enum StakeType {isNone, isNative, isToken, isNFT}
 
     struct PlayerStake {
         StakeType stakeType;
@@ -22,5 +22,8 @@ interface IRPSGameBase {
     error StakeDonotMatch();
     error AddressZero();
     error TranseferFailed();
+    error PlayersAddressMustBeDifferent();
+    error CallerNotFactory();
+    error AlreadyInitialized();
   
 }

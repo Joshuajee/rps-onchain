@@ -1,5 +1,4 @@
-import { isAddress, ethers } from "ethers"
-import { Address } from "wagmi"
+import { ethers } from "ethers"
 import { CHAIN_ID, DOMAIN_ID, FACTORY_ADDRESS } from "./enums"
 import { SUPPORTED_NETWORKS } from "./interfaces"
 import { SUPPORTED_SYMBOLS } from "./types"
@@ -12,9 +11,6 @@ export const dollarFormat = (amount: number) => {
         currency: 'USD'
     }).format(amount)
 }
-
-export const contractAddress = process.env.NEXT_PUBLIC_CONTRACT
-
 
 export const networkNameByChainId = (chainId: number) => {
 
@@ -114,12 +110,6 @@ export const getDate = () => {
 export const dateToTimeStamp = (date: Date) => {
     return new Date(date).getTime() / 1000
 }
-
-export const isAddressZero = (address: Address) => {
-    if (address === "0x0000000000000000000000000000000000000000") return true
-    return false
-}
-
 
 export const supportedNetworks : SUPPORTED_NETWORKS [] = [
     {

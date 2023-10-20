@@ -1,7 +1,0 @@
-contract RPSAchievements {
-
-    constructor() {
-
-    }
-
-}

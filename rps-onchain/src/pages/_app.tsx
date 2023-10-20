@@ -22,6 +22,7 @@ const config = createConfig({
 
 export default function App({ Component, pageProps }: AppProps) {
 
+
   useEffect(() => {
     AOS.init({ duration: 500 });
   }, []);

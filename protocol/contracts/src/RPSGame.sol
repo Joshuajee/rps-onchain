@@ -45,11 +45,12 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
     GameResult private gameResult;
     GameInfo private gameInfo;
 
-    constructor(address _playerA, address _playerB, GameInfo memory _gameInfo) {
+    constructor(address _factory, address _playerA, address _playerB, GameInfo memory _gameInfo) {
         if (_playerA == _playerB) revert PlayerMustBeDifferent();
         playerA = _playerA;
         playerB = _playerB;
         gameInfo = _gameInfo;
+        transferOwnership(_factory);
     }
 
 
@@ -57,16 +58,9 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
     /**************************** External Function ***************************/
     /**************************************************************************/
 
-    function joinGame(address _playerB) external payable onlyOwner {
-
+    function joinGame() external payable onlyOwner {
         gameStarted = true;
-
         timeLeft = block.timestamp + GAME_TIMEOUT;
-
-        GameInfo storage _gameInfo = gameInfo;
-
-        uint _value = _gameInfo.playerAStake.value;
-    
     }
 
     // Save player's encrypted move.
@@ -107,10 +101,12 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
 
         if(!gameEnded) revert GameNotOver();
 
-        if (_winner == playerA) {
-
-        } else  if (_winner == playerB) {
-
+        if (_winner == playerA && gameResult.playerA > 1) {
+            _claim(_winner);
+        } else  if (_winner == playerB && gameResult.playerB > 1) {
+            _claim(_winner);
+        } else {
+            revert YouDidnotWinThisMatch();
         }
 
     }
@@ -121,6 +117,17 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
 
     function getGameInfo() external view returns(GameInfo memory) {
         return gameInfo; 
+    }
+
+    function isWaitingForPlay(address _player) external view returns(bool) {
+        if (_player == playerA) {
+            if (encryptedMovePlayerB == 0x0) return true;
+            else return false;
+        } else if (_player == playerA) {
+            if (encryptedMovePlayerB == 0x0) return true;
+            else return false;
+        }
+        return false;
     }
 
     fallback() external payable {}
@@ -184,7 +191,7 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
     }
 
     function _playerBWon() internal {
-        uint8 _point = gameResult.playerA + 1;
+        uint8 _point = gameResult.playerB + 1;
         gameResult.outcome.push(Outcome.PlayerB);
         gameResult.playerB = _point;
         if (_point > 1) gameEnded = true;
@@ -211,7 +218,8 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
         } else if (_stakeType == StakeType.isNFT) {
             IERC721(_tokenAddress).safeTransferFrom(address(this), _winner, _value);
         } else if (_stakeType == StakeType.isNative) {
-            payable(_winner).call{ value: _value }("");
+            (bool _success,) = payable(_winner).call{ value: _value }("");
+            if (_success) revert TranseferFailed();
         }
     
     }
@@ -219,16 +227,6 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
     /**************************************************************************/
     /**************************** PUBLIC FUNCTIONS ****************************/
     /**************************************************************************/
-
-    // Return 'true' if both players have commited a move, 'false' otherwise.
-    function bothPlayed() public view returns (bool) {
-        return (encryptedMovePlayerA != 0x0 && encryptedMovePlayerB != 0x0);
-    }
-
-    // Return 'true' if both players have revealed their move, 'false' otherwise.
-    function bothRevealed() public view returns (bool) {
-        return (movePlayerA != Move.None && movePlayerB != Move.None);
-    }
 
 
     function encryptMove(Move _move, string memory _password) public pure returns (bytes32) {
@@ -244,6 +242,7 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
     modifier canPlayGame() {
         if (!gameStarted) revert OpponentHasNotJoined();
         if (gameEnded) revert GameOver();
+        if (block.timestamp > timeLeft) revert GameOver();
         _;
     }
 
