@@ -47,9 +47,9 @@ contract RPSGameFactory is IRPSGameBase {
 
     address public deployerAddress;
 
-    constructor() {
-        pointTokenAddress = address(new RPSPointToken());
-        achievementManagerAddress = address(new RPSAchievementManager());
+    constructor(address _pointTokenAddress, address _achievementManagerAddress) {
+        pointTokenAddress = _pointTokenAddress;
+        achievementManagerAddress = _achievementManagerAddress;
     }
 
     function setDeployerAddress(address _deployer) external {

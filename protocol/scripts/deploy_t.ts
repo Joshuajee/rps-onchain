@@ -6,7 +6,13 @@ async function main() {
 
   const rpsGameDeployerAddr = await RPSGameDeployer.getAddress();
 
-    console.log(rpsGameDeployerAddr)
+  await ethers.deployContract("RPSGameDeployer");
+
+  await ethers.deployContract("RPSGameDeployer");
+
+  await ethers.deployContract("RPSGameDeployer");
+
+console.log(rpsGameDeployerAddr)
 
 }
 
