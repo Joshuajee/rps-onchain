@@ -3,8 +3,16 @@
 pragma solidity 0.8.20;
 
 import './RPSNFTToken.sol';
+import { IRPSGameBase } from "../interface/IRPSGameBase.sol";
 
-contract RPSAchievementManager {
+contract RPSAchievementManager is IRPSGameBase {
+
+    address public factory;
+
+    function initialize(address _factory) external {
+        if (factory != address(0)) revert AlreadyInitialized();
+        factory = _factory;
+    }
 
     RPSNFTToken public immutable token1;
     RPSNFTToken public immutable token2;

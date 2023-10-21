@@ -26,7 +26,10 @@ async function main() {
 
   const rpsGameDeployer = await ethers.getContractAt("RPSGameDeployer", rpsGameDeployerAddr);
 
+  // initialize
+  await RPSPointToken.initialize(await rpsGameFactory.getAddress())
   await rpsGameDeployer.initialize(await rpsGameFactory.getAddress())
+  await RPSAchievementManager.initialize(await rpsGameFactory.getAddress())
 
   await rpsGameFactory.setDeployerAddress(await rpsGameDeployer.getAddress())
 
