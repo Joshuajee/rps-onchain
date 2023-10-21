@@ -115,8 +115,9 @@ const GameArena = () => {
           // Render a countdown
           return <span>{minutes}:{seconds}</span>;
         }
-      };
+    };
 
+    if (!gameAddress) return <></>
 
     return (  
         <> 

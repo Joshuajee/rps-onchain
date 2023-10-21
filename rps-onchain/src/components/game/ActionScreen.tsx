@@ -1,7 +1,7 @@
 import { GAME_OUTCOME } from "@/libs/constants"
 import GameButton from "../utils/GameButton"
 import { IGameResult } from "./interfaces"
-import { useEffect, useState } from "react"
+import { memo, useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { Address, useContractWrite } from "wagmi"
 import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
@@ -127,4 +127,4 @@ const ActionScreen = (props: IProps) => {
     )
 }
 
-export default ActionScreen
+export default memo(ActionScreen)

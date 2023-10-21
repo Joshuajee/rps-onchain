@@ -3,7 +3,7 @@ import OptionCard from "./OptionCard"
 import { Address, useAccount, useContractRead, useContractWrite } from "wagmi";
 import { useRouter } from "next/router";
 import RPSGame from "@/abi/contracts/src/RPSGame.sol/RPSGame.json";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { toast } from "react-toastify";
 import GameButton from "../utils/GameButton";
@@ -127,13 +127,13 @@ const PlayOptions = (props: IProps) => {
     )
 
     const reveal = (
-        <div data-aos="slide-up">
+        <div>
             <GameButton disabled={false} onClick={revealMove.write} color="blue">Reveal Move</GameButton>
         </div>
     )
 
     const waiting = (
-        <div data-aos="slide-up" className="text-xl">
+        <div className="text-xl">
             Waiting for opponent move
         </div>
     )
@@ -146,4 +146,4 @@ const PlayOptions = (props: IProps) => {
 
 }
 
-export default PlayOptions
+export default memo(PlayOptions)

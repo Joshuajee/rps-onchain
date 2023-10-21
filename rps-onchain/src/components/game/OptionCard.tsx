@@ -1,5 +1,5 @@
 import { PLAYER_MOVE } from "@/libs/constants";
-import { ReactNode } from "react"
+import { ReactNode, memo } from "react"
 import PlayerCard from "./PlayerCard";
 
 interface IProps {
@@ -21,4 +21,4 @@ const OptionCard = ({ card, onClick, aos }: IProps ) => {
     )
 }
 
-export default OptionCard
+export default memo(OptionCard)
