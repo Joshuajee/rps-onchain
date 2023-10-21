@@ -29,26 +29,16 @@ const config: HardhatUserConfig = {
     	only: [":RPS"],
 	},
 	networks: {
-		// fuji: {
-		// 	url: 'https://api.avax-test.network/ext/C/rpc',
-		// 	accounts: [ PRIVATE_KEY ]
-		// },
-		// mumbai: {
-		// 	url: 'https://polygon-mumbai.g.alchemy.com/v2/1yHVzG9cEm8g0IJKQA0VO-nczdGW4NgO',
-		// 	accounts: [ PRIVATE_KEY ]
-		// },
-		// ginache: {
-		// 	url: 'http://127.0.0.1:7545',
-		// 	accounts: [ PRIVATE_KEY_LOCAL ]
-		// },
 		polygon_zkevm: {
 			url: "https://rpc.public.zkevm-test.net",
+			accounts: [PRIVATE_KEY]
+		},
+		scroll_sepolia: {
+			url: "https://sepolia-rpc.scroll.io",
 			accounts: [PRIVATE_KEY]
 		}
 		
 	},
 };
 
-//https://rpc.public.zkevm-test.net
-//HTTP://127.0.0.1:7545
 export default config;

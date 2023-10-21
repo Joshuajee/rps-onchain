@@ -5,6 +5,9 @@ import {
 import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
 import { expect } from "chai";
 import { ethers } from "hardhat";
+import { RPSGameFactory } from "../typechain-types";
+import { Signature } from "ethers";
+import { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers";
 
 const provider = ethers.provider
   
@@ -15,6 +18,71 @@ describe("RPSGame Testing Claim", function () {
     // We define a fixture to reuse the same setup in every test.
     // We use loadFixture to run this setup once, snapshot that state,
     // and reset Hardhat Network to that snapshot in every test.
+
+    async function deploy() {
+
+        const [playerA, playerB] = await ethers.getSigners();
+
+        const RPSGameFactory = await ethers.getContractFactory("RPSGameFactory");
+        const rpsGameFactory = await RPSGameFactory.deploy();
+
+        const RPSGameDeployer = await ethers.getContractFactory("RPSGameDeployer");
+        const rpsGameDeployer = await RPSGameDeployer.deploy();
+    
+        await rpsGameDeployer.initialize(await rpsGameFactory.getAddress())
+    
+        await rpsGameFactory.setDeployerAddress(await rpsGameDeployer.getAddress())  
+
+        const pointTokenAddress = await rpsGameFactory.pointTokenAddress()
+
+        const rpsPointToken = await ethers.getContractAt("RPSPointToken", pointTokenAddress)
+
+        return {playerA, playerB, rpsGameFactory, rpsPointToken, pointTokenAddress}
+
+    }
+
+
+
+    async function playGame(winner: HardhatEthersSigner, loser: HardhatEthersSigner, rpsGameFactory: RPSGameFactory, gameInfo: any) {
+
+        await rpsGameFactory.createGame(winner.address, loser.address, gameInfo, {
+            value: 0
+        })
+
+        const usergames = await rpsGameFactory.getUserGamesLength(winner.address);
+    
+        const rpsGameAddress = await rpsGameFactory.getUserGame(winner.address, usergames - BigInt(1));
+
+        const rpsGame = await ethers.getContractAt("RPSGame", rpsGameAddress)
+
+        await rpsGameFactory.connect(loser).joinGame(rpsGameAddress, { value: 0 })
+
+        const _move = BigInt(2)
+
+        const move = await rpsGame.encryptMove(_move, password)
+
+        const _move1 = BigInt(1)
+
+        const move1 = await rpsGame.encryptMove(_move1, password)
+
+        await rpsGame.connect(winner).play(move)
+
+        await rpsGame.connect(loser).play(move1)
+  
+        await rpsGame.connect(winner).reveal(_move, password)
+  
+        await rpsGame.connect(loser).reveal(_move1, password)
+
+        await rpsGame.connect(winner).play(move)
+
+        await rpsGame.connect(loser).play(move1)
+  
+        await rpsGame.connect(winner).reveal(_move, password)
+  
+        await rpsGame.connect(loser).reveal(_move1, password)
+
+        return rpsGameAddress
+    }
   
     describe("Deployment Stake ETH", function () {
   
@@ -104,12 +172,57 @@ describe("RPSGame Testing Claim", function () {
 
             console.log(await rpsGameFactory.getUserGames(playerA.address, 0))
 
-
-
             //expect(await provider.getBalance(playerA)).to.increase(value + value)
 
         });
 
+    });
+
+
+
+
+    describe("Unstaked Claim", function () {
+  
+        it("User should lose some tokens when they lose to someone lower", async function () {
+
+            const { playerA, playerB, rpsGameFactory, pointTokenAddress, rpsPointToken } = await loadFixture(deploy);
+
+            const gameInfo: any = [
+                false,
+                [0, playerA.address, 0],
+                [0, playerA.address, 0]
+            ]
+
+            const game1Addr = await playGame(playerA, playerB, rpsGameFactory, gameInfo)
+
+            await rpsGameFactory.claimPrize(game1Addr)
+
+            const game2Addr = await playGame(playerA, playerB,rpsGameFactory, gameInfo)
+
+            await rpsGameFactory.claimPrize(game2Addr)
+
+            const game3Addr = await playGame(playerA, playerB,rpsGameFactory, gameInfo)
+
+            await rpsGameFactory.claimPrize(game3Addr)
+
+            console.log(await rpsPointToken.balanceOf(playerA.address))
+
+            const game4Addr = await playGame(playerB, playerA,rpsGameFactory, gameInfo)
+
+            await rpsGameFactory.connect(playerB).claimPrize(game4Addr)
+
+            console.log(await rpsPointToken.balanceOf(playerA.address))
+
+            console.log(await rpsPointToken.balanceOf(playerB.address))
+
+
+
+
+
+    
+                
+
+        });
 
     });
   
