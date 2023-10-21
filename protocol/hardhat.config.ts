@@ -30,12 +30,16 @@ const config: HardhatUserConfig = {
 	},
 	networks: {
 		polygon_zkevm: {
-			url: "https://rpc.public.zkevm-test.net",
-			accounts: [PRIVATE_KEY]
+			url: "https://rpc.public.zkevm-test.net/",
+			accounts: [PRIVATE_KEY],
 		},
 		scroll_sepolia: {
-			url: "https://sepolia-rpc.scroll.io",
-			accounts: [PRIVATE_KEY]
+			url: "https://sepolia-rpc.scroll.io/",
+			accounts: [PRIVATE_KEY],
+		},
+		fuji: {
+			url: 'https://api.avax-test.network/ext/C/rpc',
+			accounts: [ PRIVATE_KEY ]
 		}
 		
 	},

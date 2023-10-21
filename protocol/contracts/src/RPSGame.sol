@@ -51,6 +51,7 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
         playerB = _playerB;
         gameInfo = _gameInfo;
         transferOwnership(_factory);
+        timeLeft = block.timestamp + GAME_TIMEOUT;
     }
 
 
@@ -109,6 +110,12 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
             revert YouDidnotWinThisMatch();
         }
 
+    }
+
+    function claimPrizeOnTimeoutWhenGameHasNotStarted() hasTimeElasped external {
+        if (gameStarted) revert GameHasStarted();
+        if (msg.sender != playerA) revert UnAuthorized();
+        _claim(msg.sender);
     }
 
     function getGameResult() external view returns(GameResult memory) {
@@ -207,6 +214,10 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
 
     }
 
+    function _chooseWinnerOnTimeOut() internal {
+        
+    }
+
     function _transferPrize(address _winner, PlayerStake memory _playerStake) internal {
 
         address _tokenAddress = _playerStake.tokenAddress;
@@ -243,6 +254,11 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
         if (!gameStarted) revert OpponentHasNotJoined();
         if (gameEnded) revert GameOver();
         if (block.timestamp > timeLeft) revert GameOver();
+        _;
+    }
+
+    modifier hasTimeElasped() {
+        if (block.timestamp < timeLeft) revert GameNotOver();
         _;
     }
 

@@ -11,6 +11,7 @@ interface IRPSGame {
     error OpponentHasNotJoined();
     error GameNotOver();
     error GameOver();
+    error GameHasStarted();
     error PlayerMustBeDifferent();
     error YouDidnotWinThisMatch();
 }

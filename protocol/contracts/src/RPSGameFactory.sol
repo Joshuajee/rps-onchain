@@ -193,8 +193,6 @@ contract RPSGameFactory is IRPSGameBase {
 
     // to be deleted later and worked with the one above
     function getUserGames (address _user, uint _page) external view returns(RPSGame[] memory) {
-
-        uint8 COUNT = 100;
         
         uint256 start = userGames[_user].length;
 

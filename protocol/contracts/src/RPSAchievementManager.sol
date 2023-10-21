@@ -53,9 +53,10 @@ contract RPSAchievementManager {
             token8.safeMint(to);
         }   else if (_uniqueVictory == 390625) {
             token9.safeMint(to);
-        }   else if (_uniqueVictory == 1953125) {
-            //token10.safeMint(to);
-        }
+        }   
+        // else if (_uniqueVictory == 1953125) {
+        //     //token10.safeMint(to);
+        // }
 
     }
 
