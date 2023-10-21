@@ -21,7 +21,7 @@ interface IRPSGameBase {
 
     error StakeDonotMatch();
     error AddressZero();
-    error TranseferFailed();
+    error TransferFailed();
     error PlayersAddressMustBeDifferent();
     error CallerNotFactory();
     error AlreadyInitialized();

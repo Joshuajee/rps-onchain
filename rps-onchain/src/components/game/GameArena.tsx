@@ -8,6 +8,7 @@ import { Address, useAccount, useContractRead } from "wagmi";
 import { chooseMoveFromInt, deleteLocalHash, deleteLocalMove, deleteLocalSecret, getLocalMove } from "./utils";
 import { IGameResult } from "./interfaces";
 import ActionScreen from "./ActionScreen";
+import Countdown from 'react-countdown';
 
 
 const GameArena = () => {
@@ -29,6 +30,8 @@ const GameArena = () => {
 
     const [newMove, setNewMove] = useState(false)
 
+    const [timeleft, setTimeleft] = useState<number | null>(null)
+
     const gameResult =  useContractRead({
         address: gameAddress,
         abi: RPSGame,
@@ -42,6 +45,14 @@ const GameArena = () => {
         functionName: 'playerA',
         watch: true
     })
+
+    const gameTimeleft = useContractRead({
+        address: gameAddress,
+        abi: RPSGame,
+        functionName: 'timeLeft',
+        watch: true,
+    })
+
 
     useEffect(() => {
         const move = Number(getLocalMove(gameAddress))
@@ -81,6 +92,11 @@ const GameArena = () => {
         if (clearMove) setClearMove(false)
     }, [clearMove])
 
+    useEffect(() => {
+        if (gameTimeleft.data) setTimeleft(Number(gameTimeleft.data) * 1000)
+    }, [gameTimeleft.data])
+
+
     const clear = () => {
         setPlayerMove(PLAYER_MOVE.NONE)
         setOpponentMove(PLAYER_MOVE.NONE)
@@ -90,6 +106,16 @@ const GameArena = () => {
         deleteLocalSecret(gameAddress)
         setClearMove(true)
     }
+
+    const renderer = ({ hours, minutes, seconds, completed }: any) => {
+        if (completed) {
+          // Render a completed state
+          return <h3>Game Over</h3>;
+        } else {
+          // Render a countdown
+          return <span>{minutes}:{seconds}</span>;
+        }
+      };
 
 
     return (  
@@ -107,7 +133,14 @@ const GameArena = () => {
                         }
                     </div>
 
-
+                    
+                    {  
+                        timeleft &&
+                            <div className="h-full flex flex-col items-center text-3xl font-bold justify-center"> 
+                                <h3>Time Left</h3>
+                                <Countdown renderer={renderer} date={timeleft} /> 
+                            </div>  
+                    } 
 
                     <div>
                         {

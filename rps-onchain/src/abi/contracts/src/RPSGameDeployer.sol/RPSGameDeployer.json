@@ -26,7 +26,7 @@
   },
   {
     "inputs": [],
-    "name": "TranseferFailed",
+    "name": "TransferFailed",
     "type": "error"
   },
   {

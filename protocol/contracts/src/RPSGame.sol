@@ -219,7 +219,7 @@ contract RPSGame is IRPSGame, IRPSGameBase,  Ownable {
             IERC721(_tokenAddress).safeTransferFrom(address(this), _winner, _value);
         } else if (_stakeType == StakeType.isNative) {
             (bool _success,) = payable(_winner).call{ value: _value }("");
-            if (_success) revert TranseferFailed();
+            if (!_success) revert TransferFailed();
         }
     
     }

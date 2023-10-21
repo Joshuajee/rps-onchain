@@ -88,6 +88,24 @@ describe("RPSGame Testing Claim", function () {
 
             console.log(await rpsGameFactory.gamerProfile(playerA.address))
 
+            const achievementManagerAddr = await rpsGameFactory.achievementManagerAddress()
+
+            const manager = await ethers.getContractAt("RPSAchievementManager", achievementManagerAddr)
+
+            const token1Addr = await manager.token1()
+
+            const nft1 = await ethers.getContractAt("RPSNFTToken", token1Addr)
+
+            console.log(token1Addr)
+            
+            console.log(achievementManagerAddr)
+
+            console.log(await nft1.balanceOf(playerB.address))
+
+            console.log(await rpsGameFactory.getUserGames(playerA.address, 0))
+
+
+
             //expect(await provider.getBalance(playerA)).to.increase(value + value)
 
         });
