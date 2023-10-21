@@ -1,4 +1,4 @@
-import { GAME_OUTCOME, MAIN_CONTRACT } from "@/libs/constants"
+import { GAME_OUTCOME } from "@/libs/constants"
 import GameButton from "../utils/GameButton"
 import { IGameResult } from "./interfaces"
 import { useEffect, useState } from "react"
@@ -6,6 +6,7 @@ import { useRouter } from "next/router"
 import { Address, useContractWrite } from "wagmi"
 import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
 import { toast } from "react-toastify"
+import useContractAddr from "@/hooks/useContractAddr"
 
 interface IProps {
     outcomes: GAME_OUTCOME[]  
@@ -18,6 +19,8 @@ interface IProps {
 
 const ActionScreen = (props: IProps) => {
 
+    const contractAddr = useContractAddr()
+
     const router = useRouter()
 
     const { outcomes, newMove, gameResult, isPlayerA, gameAddress, clear, } = props
@@ -28,7 +31,7 @@ const ActionScreen = (props: IProps) => {
     const [isWinner, setIsWinner] = useState(false)
 
     const claim = useContractWrite({
-        address: MAIN_CONTRACT,
+        address: contractAddr,
         abi: RPSGameFactory,
         functionName: 'claimPrize',
         args: [gameAddress],

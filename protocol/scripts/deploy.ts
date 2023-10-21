@@ -2,7 +2,19 @@ import { ethers } from "hardhat";
 
 async function main() {
 
-  const RPSGameFactory = await ethers.deployContract("RPSGameFactory");
+  const RPSPointToken = await ethers.deployContract("RPSPointToken");
+
+  const rpsPointTokenAddr = await RPSPointToken.getAddress();
+
+  console.log("RPSPointToken: ", rpsPointTokenAddr)
+
+  const RPSAchievementManager = await ethers.deployContract("RPSAchievementManager");
+
+  const rpsAchievementManagerAddr = await RPSAchievementManager.getAddress();
+
+  console.log("RPSAchievementManager: ", rpsAchievementManagerAddr )
+
+  const RPSGameFactory = await ethers.deployContract("RPSGameFactory", [rpsPointTokenAddr, rpsAchievementManagerAddr]);
 
   const RPSGameDeployer = await ethers.deployContract("RPSGameDeployer");
 
@@ -14,11 +26,27 @@ async function main() {
 
   const rpsGameDeployer = await ethers.getContractAt("RPSGameDeployer", rpsGameDeployerAddr);
 
+  // initialize
+  await RPSPointToken.initialize(await rpsGameFactory.getAddress())
   await rpsGameDeployer.initialize(await rpsGameFactory.getAddress())
+  await RPSAchievementManager.initialize(await rpsGameFactory.getAddress())
 
   await rpsGameFactory.setDeployerAddress(await rpsGameDeployer.getAddress())
 
-  console.log( await RPSGameFactory.getAddress())
+  console.log("RPSGameDeployer : ", rpsGameDeployerAddr)
+
+  console.log("RPSGameFactory : ", rpsGameFactoryAddr)
+
+}
+
+
+
+
+async function deployNFTs() {
+
+  
+
+
 
 }
 

@@ -5,15 +5,11 @@ import { useContractWrite } from "wagmi";
 import { useRouter } from "next/router";
 import RPSGame from "@/abi/contracts/src/RPSGame.sol/RPSGame.json";
 
-interface IProps {
-    play: (val: PLAYER_MOVE) => void;
-    setPlayerMove: (val: PLAYER_MOVE) => void;
-}
 
 const WaitingRoom = () => {
 
     return  (
-        <div data-aos="fade-in"  className="rounded-lg flex flex-col items-center justify-center bg-red-800 h-[80vh] w-4/5">
+        <div className="rounded-lg flex flex-col items-center justify-center bg-red-800 h-[80vh] w-4/5">
             <h2 className="text-4xl font-semibold">Waiting for Opponent to join</h2>
             <div>
     

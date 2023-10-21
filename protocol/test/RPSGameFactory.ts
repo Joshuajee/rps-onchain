@@ -22,14 +22,23 @@ import {
             [0, playerA.address, 10],
             [0, playerA.address, 10]
           ]
+        
+        const RPSPointToken = await ethers.deployContract("RPSPointToken");
+        const rpsPointTokenAddr = await RPSPointToken.getAddress();
+    
+        const RPSAchievementManager = await ethers.deployContract("RPSAchievementManager");
+        const rpsAchievementManagerAddr = await RPSAchievementManager.getAddress();
     
         const RPSGameFactory = await ethers.getContractFactory("RPSGameFactory");
-        const rpsGameFactory = await RPSGameFactory.deploy();
+        const rpsGameFactory = await RPSGameFactory.deploy(rpsPointTokenAddr, rpsAchievementManagerAddr);
 
         const RPSGameDeployer = await ethers.getContractFactory("RPSGameDeployer");
         const rpsGameDeployer = await RPSGameDeployer.deploy();
 
+        // initialize
+        await RPSPointToken.initialize(await rpsGameFactory.getAddress())
         await rpsGameDeployer.initialize(await rpsGameFactory.getAddress())
+        await RPSAchievementManager.initialize(await rpsGameFactory.getAddress())
 
         await rpsGameFactory.setDeployerAddress(await rpsGameDeployer.getAddress())
     

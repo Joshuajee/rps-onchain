@@ -5,6 +5,55 @@
     "type": "constructor"
   },
   {
+    "inputs": [],
+    "name": "AddressZero",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "AlreadyInitialized",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "CallerNotFactory",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "PlayersAddressMustBeDifferent",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "StakeDonotMatch",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "TransferFailed",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -23,11 +72,161 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "factory",
+        "type": "address"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      }
+    ],
+    "name": "setToken1",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      }
+    ],
+    "name": "setToken2",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      }
+    ],
+    "name": "setToken3",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      }
+    ],
+    "name": "setToken4",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      }
+    ],
+    "name": "setToken5",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      }
+    ],
+    "name": "setToken6",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      }
+    ],
+    "name": "setToken7",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      }
+    ],
+    "name": "setToken8",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      }
+    ],
+    "name": "setToken9",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "token1",
     "outputs": [
       {
-        "internalType": "contract RPSNFTToken",
+        "internalType": "address",
         "name": "",
         "type": "address"
       }
@@ -40,7 +239,7 @@
     "name": "token2",
     "outputs": [
       {
-        "internalType": "contract RPSNFTToken",
+        "internalType": "address",
         "name": "",
         "type": "address"
       }
@@ -53,7 +252,7 @@
     "name": "token3",
     "outputs": [
       {
-        "internalType": "contract RPSNFTToken",
+        "internalType": "address",
         "name": "",
         "type": "address"
       }
@@ -66,7 +265,7 @@
     "name": "token4",
     "outputs": [
       {
-        "internalType": "contract RPSNFTToken",
+        "internalType": "address",
         "name": "",
         "type": "address"
       }
@@ -79,7 +278,7 @@
     "name": "token5",
     "outputs": [
       {
-        "internalType": "contract RPSNFTToken",
+        "internalType": "address",
         "name": "",
         "type": "address"
       }
@@ -92,7 +291,7 @@
     "name": "token6",
     "outputs": [
       {
-        "internalType": "contract RPSNFTToken",
+        "internalType": "address",
         "name": "",
         "type": "address"
       }
@@ -105,7 +304,7 @@
     "name": "token7",
     "outputs": [
       {
-        "internalType": "contract RPSNFTToken",
+        "internalType": "address",
         "name": "",
         "type": "address"
       }
@@ -118,7 +317,7 @@
     "name": "token8",
     "outputs": [
       {
-        "internalType": "contract RPSNFTToken",
+        "internalType": "address",
         "name": "",
         "type": "address"
       }
@@ -131,12 +330,25 @@
     "name": "token9",
     "outputs": [
       {
-        "internalType": "contract RPSNFTToken",
+        "internalType": "address",
         "name": "",
         "type": "address"
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

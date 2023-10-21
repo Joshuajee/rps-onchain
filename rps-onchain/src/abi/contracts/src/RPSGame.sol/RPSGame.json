@@ -98,6 +98,11 @@
   },
   {
     "inputs": [],
+    "name": "GameHasStarted",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "GameNotOver",
     "type": "error"
   },
@@ -201,6 +206,13 @@
       }
     ],
     "name": "claimPrize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "claimPrizeOnTimeoutWhenGameHasNotStarted",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

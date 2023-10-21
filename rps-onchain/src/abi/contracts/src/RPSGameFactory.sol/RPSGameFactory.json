@@ -1,6 +1,17 @@
 [
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_pointTokenAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_achievementManagerAddress",
+        "type": "address"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },

@@ -54,3 +54,35 @@ export function chooseMoveFromInt(move: number) : PLAYER_MOVE {
     return PLAYER_MOVE.NONE
 
 }
+
+
+export type Achievement = "rps-br" | "rps-f" | "rps-s" | "rps-w" | "rps-sh" | "rps-b" | "rps-war" | "rps-gen" | "rps-king"
+
+export const reward = (uniqueVictory: number) : null | Achievement => {
+        
+    if (uniqueVictory == 1) {
+   
+    }   else if (uniqueVictory == 5) {
+
+    }   else if (uniqueVictory == 25) {
+
+    }   else if (uniqueVictory == 125) {
+
+    }   else if (uniqueVictory == 625) {
+
+    }   else if (uniqueVictory == 3125) {
+
+    }   else if (uniqueVictory == 15625) {
+
+    }   else if (uniqueVictory == 78125) {
+
+    }   else if (uniqueVictory == 390625) {
+
+    }   else if (uniqueVictory == 1953125) {
+        //token10.safeMint(to);
+        return null
+    }
+
+    return null
+
+} 

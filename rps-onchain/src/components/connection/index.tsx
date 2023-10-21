@@ -7,21 +7,22 @@ import ConnectionInfo from './connectionInfo'
 import WalletOptions from './walletsOptions'
 import ModalWrapper from '../modals/ModalWrapper'
 import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
-import { MAIN_CONTRACT } from '@/libs/constants'
 import convert from 'ethereum-unit-converter'
+import useContractAddr from '@/hooks/useContractAddr'
 
 
 
 const Connection = () => {
 
+    const contractAddr = useContractAddr()
+
     const { address, isConnected } = useAccount()
     const [show, setShow] = useState(false)
     const [showOptions, setShowOptions] = useState(false)
 
-    //getRPSPTokenBalance
 
     const getRPSPTokenBalance = useContractRead({
-        address: MAIN_CONTRACT as Address,
+        address: contractAddr,
         abi: RPSGameFactory,
         functionName: 'getRPSPTokenBalance',
         args: [address],

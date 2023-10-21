@@ -16,7 +16,7 @@ interface ITOKEN {
 
 contract RPSGameDeployer is IRPSGameBase {
 
-    address factory;
+    address public factory;
 
     function initialize(address _factory) external {
         if (factory != address(0)) revert AlreadyInitialized();

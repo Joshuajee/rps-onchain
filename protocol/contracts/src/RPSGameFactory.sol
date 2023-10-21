@@ -47,9 +47,9 @@ contract RPSGameFactory is IRPSGameBase {
 
     address public deployerAddress;
 
-    constructor() {
-        pointTokenAddress = address(new RPSPointToken());
-        achievementManagerAddress = address(new RPSAchievementManager());
+    constructor(address _pointTokenAddress, address _achievementManagerAddress) {
+        pointTokenAddress = _pointTokenAddress;
+        achievementManagerAddress = _achievementManagerAddress;
     }
 
     function setDeployerAddress(address _deployer) external {
@@ -193,8 +193,6 @@ contract RPSGameFactory is IRPSGameBase {
 
     // to be deleted later and worked with the one above
     function getUserGames (address _user, uint _page) external view returns(RPSGame[] memory) {
-
-        uint8 COUNT = 100;
         
         uint256 start = userGames[_user].length;
 
@@ -251,7 +249,7 @@ contract RPSGameFactory is IRPSGameBase {
 
         if (!hasDefeated[_winner][_loser]) {
             gamerProfile[_winner].uniqueWins += 1;
-            RPSAchievementManager(achievementManagerAddress).Reward(_winner, gamerProfile[_winner].uniqueWins);
+            //RPSAchievementManager(achievementManagerAddress).Reward(_winner, gamerProfile[_winner].uniqueWins);
         }
 
     }

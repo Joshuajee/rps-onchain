@@ -9,7 +9,7 @@ import { ethers } from "hardhat";
 const provider = ethers.provider
   
   
-describe("RPSGame", function () {
+describe("RPSGame Staked", function () {
   
     const password = "password"
     // We define a fixture to reuse the same setup in every test.
@@ -30,9 +30,15 @@ describe("RPSGame", function () {
                 [1, playerA.address, value]
             ]
 
+            const RPSPointToken = await ethers.deployContract("RPSPointToken");
+            const rpsPointTokenAddr = await RPSPointToken.getAddress();
+        
+            const RPSAchievementManager = await ethers.deployContract("RPSAchievementManager");
+            const rpsAchievementManagerAddr = await RPSAchievementManager.getAddress();
+        
             const RPSGameFactory = await ethers.getContractFactory("RPSGameFactory");
-            const rpsGameFactory = await RPSGameFactory.deploy();
-
+            const rpsGameFactory = await RPSGameFactory.deploy(rpsPointTokenAddr, rpsAchievementManagerAddr);
+    
             const RPSGameDeployer = await ethers.getContractFactory("RPSGameDeployer");
             const rpsGameDeployer = await RPSGameDeployer.deploy();
         
@@ -69,8 +75,15 @@ describe("RPSGame", function () {
                 [1, playerA.address, value2]
             ]
 
+            const RPSPointToken = await ethers.deployContract("RPSPointToken");
+            const rpsPointTokenAddr = await RPSPointToken.getAddress();
+        
+            const RPSAchievementManager = await ethers.deployContract("RPSAchievementManager");
+            const rpsAchievementManagerAddr = await RPSAchievementManager.getAddress();
+        
             const RPSGameFactory = await ethers.getContractFactory("RPSGameFactory");
-            const rpsGameFactory = await RPSGameFactory.deploy();
+            const rpsGameFactory = await RPSGameFactory.deploy(rpsPointTokenAddr, rpsAchievementManagerAddr);
+    
 
             const RPSGameDeployer = await ethers.getContractFactory("RPSGameDeployer");
             const rpsGameDeployer = await RPSGameDeployer.deploy();

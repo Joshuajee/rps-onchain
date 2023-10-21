@@ -4,13 +4,13 @@ import { useEffect } from 'react'
 import { publicProvider } from 'wagmi/providers/public'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { WagmiConfig, configureChains, createConfig, sepolia } from 'wagmi'
-import { polygonZkEvmTestnet, scrollTestnet, hardhat } from 'wagmi/chains'
+import { WagmiConfig, configureChains, createConfig } from 'wagmi'
+import { polygonZkEvmTestnet, hardhat, scrollSepolia } from 'wagmi/chains'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
  
 const { publicClient, webSocketPublicClient } = configureChains(
-  [polygonZkEvmTestnet, scrollTestnet, hardhat],
+  [scrollSepolia, polygonZkEvmTestnet, hardhat],
   [publicProvider()],
 )
  

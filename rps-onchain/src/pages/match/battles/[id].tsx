@@ -1,22 +1,24 @@
 import Container from "@/components/utils/Container";
 import Layout from "@/components/utils/Layout";
-import { MAIN_CONTRACT } from "@/libs/constants";
 import { useRouter } from "next/router";
 import { Address, useAccount, useContractRead, useContractWrite } from "wagmi";
 import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
 import { useEffect, useState } from "react";
+import useContractAddr from "@/hooks/useContractAddr";
 
 
 export default function JoinMatch() {
 
   const { address } = useAccount()
 
+  const contractAddr = useContractAddr()
+
   const [battles, setBattles] = useState([])
 
   const router = useRouter()
 
   const fetchBattles = useContractRead({
-    address: MAIN_CONTRACT as Address,
+    address: contractAddr,
     abi: RPSGameFactory,
     functionName: 'getUserGames',
     args: [address, 1],
