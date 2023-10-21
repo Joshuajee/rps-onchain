@@ -46,6 +46,8 @@ export default function JoinMatch() {
 
   const contractAddr = useContractAddr()
 
+  console.log(contractAddr)
+
   const opponentAddress = useInput("address")
 
   const createGame = useContractWrite({
