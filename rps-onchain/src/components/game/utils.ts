@@ -56,7 +56,7 @@ export function chooseMoveFromInt(move: number) : PLAYER_MOVE {
 }
 
 
-export type Achievement = ""
+export type Achievement = "rps-br" | "rps-f" | "rps-s" | "rps-w" | "rps-sh" | "rps-b" | "rps-war" | "rps-gen" | "rps-king"
 
 export const reward = (uniqueVictory: number) : null | Achievement => {
         

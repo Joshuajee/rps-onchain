@@ -13,6 +13,7 @@
     "aos": "^2.3.4",
     "ethereum-unit-converter": "^0.0.17",
     "ethers": "^6.7.1",
+    "fs": "^0.0.1-security",
     "graphql": "^16.8.1",
     "next": "13.5.4",
     "prisma": "^5.4.2",
