@@ -6,9 +6,9 @@ dataSources:
     name: RPSPointToken
     network: scroll-sepolia
     source:
-      address: "0xD56549278D3F5d7BEbC9E149Bd3093014b0493a0"
+      address: "0xB7a9a945538DfEb40c5F1654Ad469aA51936b13d"
       abi: RPSPointToken
-      startBlock: 1767946
+      startBlock: 1767948
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
