@@ -7,12 +7,7 @@ import { IRPSGameBase } from "../interface/IRPSGameBase.sol";
 
 contract RPSAchievementManager is IRPSGameBase {
 
-    address public factory;
 
-    function initialize(address _factory) external {
-        if (factory != address(0)) revert AlreadyInitialized();
-        factory = _factory;
-    }
 
     RPSNFTToken public immutable token1;
     RPSNFTToken public immutable token2;
@@ -36,8 +31,6 @@ contract RPSAchievementManager is IRPSGameBase {
         token7 = new RPSNFTToken("RPS Warload", "RSP-WAR", "https://ipfs.io/ipfs/QmY4xWzR152kSFjWb5vKXZt8nAbCBWKK9XsnyfwhXtMH4A");
         token8 = new RPSNFTToken("RPS General", "RPS-GEN", "https://ipfs.io/ipfs/QmTUhdkh7Bit1aimCN8ZpRcmf9312Anjq6sYEzwzNEs2qp");
         token9 = new RPSNFTToken("RPS King", "RPS-K", "https://ipfs.io/ipfs/QmWivXBoVGncymAh1wfD6bExXgiWhiTyyBb87BnzVaBBHG");
-        // token10 = new RPSNFTToken("RPS Emperor", "RPS-EMP", "");
-        // token11 = new RPSNFTToken("RPS Immortal", "RPS-IMM", "");
     }
 
 

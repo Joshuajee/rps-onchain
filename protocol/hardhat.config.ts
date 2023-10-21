@@ -31,16 +31,20 @@ const config: HardhatUserConfig = {
 	networks: {
 		polygon_zkevm: {
 			url: "https://rpc.public.zkevm-test.net/",
-			accounts: [PRIVATE_KEY],
+			accounts: [PRIVATE_KEY]
 		},
 		scroll_sepolia: {
-			url: "https://sepolia-rpc.scroll.io/",
+			url: "https://sly-stylish-field.scroll-testnet.quiknode.pro/4196b86d0efc48afd45910796f7285dcf01d41c4/",
 			accounts: [PRIVATE_KEY],
 		},
 		fuji: {
 			url: 'https://api.avax-test.network/ext/C/rpc',
 			accounts: [ PRIVATE_KEY ]
-		}
+		},
+		mumbai: {
+			url: 'https://polygon-mumbai.g.alchemy.com/v2/1yHVzG9cEm8g0IJKQA0VO-nczdGW4NgO',
+			accounts: [ PRIVATE_KEY ]
+		},
 		
 	},
 };

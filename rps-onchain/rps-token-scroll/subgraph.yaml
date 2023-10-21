@@ -1,0 +1,33 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: RPSPointToken
+    network: scroll-sepolia
+    source:
+      address: "0xD56549278D3F5d7BEbC9E149Bd3093014b0493a0"
+      abi: RPSPointToken
+      startBlock: 1767946
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - EIP712DomainChanged
+        - TokenBalance
+        - Transfer
+      abis:
+        - name: RPSPointToken
+          file: ./abis/RPSPointToken.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: EIP712DomainChanged()
+          handler: handleEIP712DomainChanged
+        - event: TokenBalance(indexed address,uint256)
+          handler: handleTokenBalance
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/rps-point-token.ts

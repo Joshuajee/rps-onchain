@@ -249,7 +249,7 @@ contract RPSGameFactory is IRPSGameBase {
 
         if (!hasDefeated[_winner][_loser]) {
             gamerProfile[_winner].uniqueWins += 1;
-            RPSAchievementManager(achievementManagerAddress).Reward(_winner, gamerProfile[_winner].uniqueWins);
+            //RPSAchievementManager(achievementManagerAddress).Reward(_winner, gamerProfile[_winner].uniqueWins);
         }
 
     }
