@@ -6,7 +6,6 @@ async function main() {
         "RPSNFTToken", 
         [
             "RPS Battle Ready", 
-            "RPS-BR",
             "RPS-BR", "https://ipfs.io/ipfs/QmX72Asu4A9Wq8of7taEF6cXT1zqrQzkQmw4Z31BkSY8uY"
         ]
     );
