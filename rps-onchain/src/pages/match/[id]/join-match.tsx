@@ -1,7 +1,6 @@
 import Container from "@/components/utils/Container";
 import Layout from "@/components/utils/Layout";
 import Web3btn from "@/components/utils/Web3btn";
-import { MAIN_CONTRACT } from "@/libs/constants";
 import { useRouter } from "next/router";
 import { Address, useContractRead, useContractWrite } from "wagmi";
 import RPSGame from "@/abi/contracts/src/RPSGame.sol/RPSGame.json";
@@ -9,9 +8,12 @@ import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactor
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { ASSET_TYPE } from "@/components/utils/GameStaker";
+import useContractAddr from "@/hooks/useContractAddr";
 
 
 export default function JoinMatch() {
+
+    const contractAddr = useContractAddr()
 
     const router = useRouter()
 
@@ -27,7 +29,7 @@ export default function JoinMatch() {
     })
 
     const joinGame = useContractWrite({
-        address: MAIN_CONTRACT as Address,
+        address: contractAddr,
         abi: RPSGameFactory,
         functionName: 'joinGame',
         args: [router.query.id],

@@ -120,7 +120,7 @@ const GameArena = () => {
 
     return (  
         <> 
-            <div style={{zIndex: 0}} data-aos="fade-in" className="rounded-lg flex flex-col bg-red-800 h-[60vh] md:h-[80vh] w-full md:w-4/5">
+            <div className="rounded-lg flex flex-col bg-red-800 h-[60vh] md:h-[80vh] w-full md:w-4/5">
 
                 <div className="flex grow justify-between p-2 md:p-6">
 

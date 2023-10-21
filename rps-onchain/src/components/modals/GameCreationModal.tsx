@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react"
 import ModalWrapper from "./ModalWrapper"
 import { Address, useContractRead } from "wagmi"
-import { HOST, MAIN_CONTRACT } from "@/libs/constants"
+import { HOST } from "@/libs/constants"
 import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
 import LoaderOne from "../loaders/LoaderOne";
 import { useRouter } from "next/router";
 import GameButton from "../utils/GameButton";
 import { toast } from "react-toastify";
+import useContractAddr from "@/hooks/useContractAddr";
 
 const GameCreationModal = ({ open, address } : { open: boolean, address: Address }) => {
 
     const router = useRouter()
+
+    const contractAddr = useContractAddr()
 
     const [lastGame, setLastGame] = useState(-1)
     const [link, setLink] = useState<string | null>(null)
@@ -18,7 +21,7 @@ const GameCreationModal = ({ open, address } : { open: boolean, address: Address
     const handleClose = () => {}
 
     const fetchGameLength = useContractRead({
-        address: MAIN_CONTRACT,
+        address: contractAddr,
         abi: RPSGameFactory,
         functionName: 'getUserGamesLength',
         args: [address],
@@ -26,7 +29,7 @@ const GameCreationModal = ({ open, address } : { open: boolean, address: Address
     })
 
     const fetchGame = useContractRead({
-        address: MAIN_CONTRACT,
+        address: contractAddr,
         abi: RPSGameFactory,
         functionName: 'getUserGame',
         args: [address, BigInt(lastGame || 1) - BigInt(1)],

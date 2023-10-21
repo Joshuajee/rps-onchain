@@ -3,7 +3,6 @@ import Input from "@/components/utils/Input";
 import Layout from "@/components/utils/Layout";
 import Web3btn from "@/components/utils/Web3btn";
 import useInput from "@/hooks/useInput";
-import { MAIN_CONTRACT } from "@/libs/constants";
 import { Address, useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
 import { useEffect, useState } from "react";
@@ -11,8 +10,8 @@ import GameCreationModal from "@/components/modals/GameCreationModal";
 import { toast } from "react-toastify";
 import { ethers } from "ethers";
 import GameStaker from "@/components/utils/GameStaker";
-import Toggle from 'react-toggle'
-import "react-toggle/style.css" 
+import Switch from "react-switch";
+import useContractAddr from "@/hooks/useContractAddr";
 
 
 
@@ -45,10 +44,12 @@ export default function JoinMatch() {
 
   const { address, isConnected } = useAccount()
 
+  const contractAddr = useContractAddr()
+
   const opponentAddress = useInput("address")
 
   const createGame = useContractWrite({
-    address: MAIN_CONTRACT as Address,
+    address: contractAddr,
     abi: RPSGameFactory,
     functionName: 'createGame',
     args: [address, opponentAddress.value, gameInfo],
@@ -107,12 +108,12 @@ export default function JoinMatch() {
 
             <div className="flex gap-5 text-gray-700 justify-end">
               <div>Staked? </div>
-              <Toggle defaultChecked={isStaked} onChange={(e) => setIsStaked(e.target.checked)} />
+              <Switch checked={isStaked} onChange={setIsStaked} />
             </div>
 
             { 
               isStaked &&
-                <div data-aos="fade-in">
+                <div>
                   <GameStaker stakeInfo={playerAStake} setStakeInfo={setPlayerAStake} />
                   <GameStaker stakeInfo={playerBStake} setStakeInfo={setPlayerBStake} />
                 </div>
