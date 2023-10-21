@@ -13,7 +13,7 @@ const useContractAddr = () => {
         if (!isConnected) {
             setContract(ZK_SCROLL_CONTRACT)
         } else {
-
+            //if ()
         }
 
     }, [isConnected])
