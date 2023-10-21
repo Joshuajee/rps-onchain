@@ -91,7 +91,7 @@ contract RPSGameFactory is IRPSGameBase {
 
                 (bool _status, ) = payable(gameAddress).call{value: msg.value}("");
 
-                if (!_status) revert TranseferFailed();
+                if (!_status) revert TransferFailed();
             
             }
 
@@ -132,7 +132,7 @@ contract RPSGameFactory is IRPSGameBase {
 
                 (bool _success, ) = address(_gameAddress).call{value: msg.value}("");
 
-                if (!_success) revert TranseferFailed();
+                if (!_success) revert TransferFailed();
             }
 
         }
@@ -147,7 +147,7 @@ contract RPSGameFactory is IRPSGameBase {
     }
 
     function claimPrize(address payable _gameAddress) external {
-        //RPSGame(_gameAddress).claimPrize(msg.sender);
+        RPSGame(_gameAddress).claimPrize(msg.sender);
         RPSPointToken(pointTokenAddress).mint(msg.sender, 10 ether);
         address _playerA = RPSGame(_gameAddress).playerA();
         address _playerB = RPSGame(_gameAddress).playerB();
@@ -163,19 +163,46 @@ contract RPSGameFactory is IRPSGameBase {
     }
 
 
+    // function getUserGames (address _user, uint _page) external view returns(RPSGame[] memory) {
+
+    //     uint8 COUNT = 100;
+        
+    //     uint256 start = _page * COUNT;
+
+    //     uint length = userGames[_user].length;
+
+    //     uint end = start < length ? length : start - COUNT;
+
+    //     uint8 count = 0;
+
+    //     RPSGame[] memory rpsGames = new RPSGame[](COUNT);
+
+    //     for (uint i = start; i > end;) {
+
+    //         rpsGames[count] = userGames[_user][count];
+
+    //         unchecked {
+    //             --i;
+    //             ++count;
+    //         }
+
+    //     }
+
+    //     return rpsGames;
+    // }
+
+    // to be deleted later and worked with the one above
     function getUserGames (address _user, uint _page) external view returns(RPSGame[] memory) {
 
         uint8 COUNT = 100;
         
-        uint256 start = _page * COUNT;
-
-        uint end = start < COUNT ? 0 : start - COUNT;
+        uint256 start = userGames[_user].length;
 
         uint8 count = 0;
 
-        RPSGame[] memory rpsGames = new RPSGame[](COUNT);
+        RPSGame[] memory rpsGames = new RPSGame[](start);
 
-        for (uint i = start; i > end;) {
+        for (uint i = start; i > 0;) {
 
             rpsGames[count] = userGames[_user][count];
 

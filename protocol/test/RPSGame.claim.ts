@@ -102,6 +102,8 @@ describe("RPSGame Testing Claim", function () {
 
             console.log(await nft1.balanceOf(playerB.address))
 
+            console.log(await rpsGameFactory.getUserGames(playerA.address, 0))
+
 
 
             //expect(await provider.getBalance(playerA)).to.increase(value + value)

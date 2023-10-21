@@ -7,11 +7,14 @@ import { useRouter } from "next/router";
 import WaitingRoom from "@/components/game/WaitingRoom";
 import GameArena from "@/components/game/GameArena";
 
+
 export default function Match() {
 
     const router = useRouter()
 
     const [started, setStarted] = useState(false)
+
+    const [timeleft, setTimeleft] = useState<number | null>(null)
 
     const gameStarted = useContractRead({
         address: router.query.id as Address,
@@ -21,10 +24,22 @@ export default function Match() {
         enabled: !started
     })
 
+    const gameTimeleft = useContractRead({
+        address: router.query.id as Address,
+        abi: RPSGame,
+        functionName: 'timeLeft',
+        watch: true,
+        enabled: !started
+    })
+
     useEffect(() => {
         if (gameStarted.data === true) setStarted(true)
         else setStarted(false)
     }, [gameStarted.data])
+
+    useEffect(() => {
+        if (gameTimeleft.data) setTimeleft(Number(gameTimeleft.data) * 1000)
+    }, [gameTimeleft.data])
 
     return (
         <Layout>
