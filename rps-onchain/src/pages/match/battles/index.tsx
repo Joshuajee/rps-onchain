@@ -34,11 +34,6 @@ export default function JoinMatch() {
     }
   }, [fetchBattles.data])
 
-  console.log(fetchBattles)
-
-
-
-
 
   return (
     <Layout>

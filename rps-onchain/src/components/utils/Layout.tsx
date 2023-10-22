@@ -29,7 +29,7 @@ const Layout = (props: IProps) => {
         <main suppressHydrationWarning className={`flex flex-col h-full min-h-screen`}>
             <Navbar />
 
-            {
+            {/* {
                 (chain?.id && isWrongNet) &&
                     <div className='fixed top-14 bg-orange-400 w-full z-10 text-center px-4 py-2'>
                         You are connected to 
@@ -39,7 +39,7 @@ const Layout = (props: IProps) => {
                         <text className="ml-1">OR</text> 
                         <button onClick={() => switchNetwork?.(polygonZkEvmTestnet.id)} className='ml-2 underline font-bold'> ZK Polygon Testnet </button> 
                     </div>
-            }
+            } */}
 
             <div className='flex-grow bg-slate-50'>{props.children}</div>
         </main>
