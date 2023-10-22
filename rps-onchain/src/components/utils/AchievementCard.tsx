@@ -1,8 +1,9 @@
 import Image from "next/image"
 import { Achievement } from "../game/utils"
-import { Address, useChainId, useContractRead, useNetwork } from "wagmi"
+import { Address, useAccount, useChainId, useContractRead, useNetwork } from "wagmi"
 import  RPSAchievementManager from "@/abi/contracts/src/RPSAchievementManager.sol/RPSAchievementManager.json"
 import RPSNFT from "@/abi/contracts/src/RPSAchievements.sol/RPSAchievements.json"
+import { useState } from "react"
 
 const metadata: any = {
     "rps-b": {
@@ -80,6 +81,8 @@ interface IProps {
 
 const AchievementCard = ({achievementType, manager, uniqueVictories}: IProps) => {
 
+    const { isConnected } = useAccount()
+
     const chainId = useChainId()
 
     const nft = metadata?.[achievementType as any]
@@ -91,7 +94,7 @@ const AchievementCard = ({achievementType, manager, uniqueVictories}: IProps) =>
         address: manager as Address,
         abi: RPSAchievementManager,
         functionName: nft?.address,
-        chainId: chainId
+        chainId: chainId,
     })
 
 
@@ -112,7 +115,7 @@ const AchievementCard = ({achievementType, manager, uniqueVictories}: IProps) =>
                     <h5 className="break-words">You own this </h5>
                 }
 
-                <h5 className="break-words">{tokenAddress?.data as string} </h5>
+                <h5 className="break-words">{isConnected && tokenAddress?.data as string} </h5>
 
             </div>
         </div>
