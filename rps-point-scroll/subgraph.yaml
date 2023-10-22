@@ -6,7 +6,7 @@ dataSources:
     name: RPSTPointToken
     network: scroll-sepolia
     source:
-      address: "0xfeaA40C32FdE5674D41DB86bD84177d5714e5cF8"
+      address: "0x8aC8bb37EF850280803BCfa0FEF06f03E4DbaE6F"
       abi: RPSTPointToken
       startBlock: 1782318
     mapping:

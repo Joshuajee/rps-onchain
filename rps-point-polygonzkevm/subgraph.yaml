@@ -6,7 +6,7 @@ dataSources:
     name: RPSTPointTokens
     network: polygon-zkevm-testnet
     source:
-      address: "0x17c6061C7fA3A4A2F36ef4bB070e354cAf766844"
+      address: "0x7de0a21c17c124A2980d6d39d6994E6d2082fFFC"
       abi: RPSTPointTokens
       startBlock: 2998134
     mapping:
