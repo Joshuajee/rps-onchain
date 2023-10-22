@@ -1,5 +1,4 @@
 import Container from "@/components/utils/Container";
-import { createClient } from 'urql'
 import Layout from "@/components/utils/Layout";
 import { useEffect, useState } from "react";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
@@ -8,11 +7,6 @@ import { useQuery } from "react-query";
 
 
 const APIURL = "https://api.studio.thegraph.com/query/54658/rps-point-scroll/version/latest"
-
-const client = new ApolloClient({
-  uri: APIURL,
-  cache: new InMemoryCache()
-});
 
 
 const QUERY = gql`
@@ -58,20 +52,16 @@ export default function Home() {
 
           <div className="max-w-lg w-full">
 
-            <ApolloProvider client={client}>
-
-              {
-                battles.map((battle) => {
-                  return (
-                    <div key={battle} className="block text-gray-700 text-center border-[1px] border-gray-800 rounded-md p-3 m-2">
-                      <h5>{battle.address}</h5>
-                      <text className="font-bold">{battle.points} RPST </text>
-                    </div>
-                  )
-                })
-              }
-
-            </ApolloProvider>
+            {
+              battles.map((battle) => {
+                return (
+                  <div key={battle} className="block text-gray-700 text-center border-[1px] border-gray-800 rounded-md p-3 m-2">
+                    <h5>{battle.address}</h5>
+                    <text className="font-bold">{battle.points} RPST </text>
+                  </div>
+                )
+              })
+            }
 
           </div>
 

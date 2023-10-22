@@ -8,12 +8,15 @@ import { useRouter } from "next/router";
 import GameButton from "../utils/GameButton";
 import { toast } from "react-toastify";
 import useContractAddr from "@/hooks/useContractAddr";
+import useChainId from "@/hooks/useChainId";
 
 const GameCreationModal = ({ open, address } : { open: boolean, address: Address }) => {
 
     const router = useRouter()
 
     const contractAddr = useContractAddr()
+
+    const chainId = useChainId()
 
     const [lastGame, setLastGame] = useState(-1)
     const [link, setLink] = useState<string | null>(null)
@@ -26,6 +29,7 @@ const GameCreationModal = ({ open, address } : { open: boolean, address: Address
         functionName: 'getUserGamesLength',
         args: [address],
         watch: true,
+        chainId: chainId
     })
 
     const fetchGame = useContractRead({
@@ -34,7 +38,8 @@ const GameCreationModal = ({ open, address } : { open: boolean, address: Address
         functionName: 'getUserGame',
         args: [address, BigInt(lastGame || 1) - BigInt(1)],
         watch: true,
-        enabled: lastGame >= 0 ? true : false
+        enabled: lastGame >= 0 ? true : false,
+        chainId: chainId
     })
 
     useEffect(() => {

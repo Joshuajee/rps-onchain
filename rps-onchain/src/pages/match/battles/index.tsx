@@ -1,31 +1,29 @@
 import Container from "@/components/utils/Container";
-import Input from "@/components/utils/Input";
 import Layout from "@/components/utils/Layout";
-import Web3btn from "@/components/utils/Web3btn";
 import { useRouter } from "next/router";
-import { Address, useAccount, useContractRead, useContractWrite } from "wagmi";
+import { useAccount, useContractRead } from "wagmi";
 import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
 import { useEffect, useState } from "react";
-import GameCreationModal from "@/components/modals/GameCreationModal";
-import { toast } from "react-toastify";
 import Link from "next/link";
 import useContractAddr from "@/hooks/useContractAddr";
+import useChainId from "@/hooks/useChainId";
 
 export default function JoinMatch() {
 
   const { address } = useAccount()
 
+  const chainId = useChainId()
+
   const contractAddr = useContractAddr()
 
   const [battles, setBattles] = useState([])
-
-  const router = useRouter()
 
   const fetchBattles = useContractRead({
     address: contractAddr,
     abi: RPSGameFactory,
     functionName: 'getUserGames',
     args: [address, 1],
+    chainId: chainId
   })
 
   useEffect(() => {

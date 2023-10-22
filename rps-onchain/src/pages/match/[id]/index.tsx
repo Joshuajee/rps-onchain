@@ -6,22 +6,24 @@ import { useEffect, useReducer, useState } from "react";
 import { useRouter } from "next/router";
 import WaitingRoom from "@/components/game/WaitingRoom";
 import GameArena from "@/components/game/GameArena";
+import useChainId from "@/hooks/useChainId";
 
 
 export default function Match() {
 
     const router = useRouter()
 
-    const [started, setStarted] = useState(false)
+    const chainId = useChainId()
 
-    const [timeleft, setTimeleft] = useState<number | null>(null)
+    const [started, setStarted] = useState(false)
 
     const gameStarted = useContractRead({
         address: router.query.id as Address,
         abi: RPSGame,
         functionName: 'gameStarted',
         watch: true,
-        enabled: !started
+        enabled: !started,
+        chainId: chainId
     })
 
     const gameTimeleft = useContractRead({
@@ -29,7 +31,8 @@ export default function Match() {
         abi: RPSGame,
         functionName: 'timeLeft',
         watch: true,
-        enabled: !started
+        enabled: !started,
+        chainId: chainId
     })
 
     useEffect(() => {
@@ -37,9 +40,9 @@ export default function Match() {
         else setStarted(false)
     }, [gameStarted.data])
 
-    useEffect(() => {
-        if (gameTimeleft.data) setTimeleft(Number(gameTimeleft.data) * 1000)
-    }, [gameTimeleft.data])
+    // useEffect(() => {
+    //     if (gameTimeleft.data) setTimeleft(Number(gameTimeleft.data) * 1000)
+    // }, [gameTimeleft.data])
 
     return (
         <Layout>

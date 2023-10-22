@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { Achievement } from "../game/utils"
-import { Address, useContractRead } from "wagmi"
+import { Address, useChainId, useContractRead, useNetwork } from "wagmi"
 import  RPSAchievementManager from "@/abi/contracts/src/RPSAchievementManager.sol/RPSAchievementManager.json"
 
 
@@ -70,12 +70,15 @@ interface IProps {
 
 const AchievementCard = ({achievementType, manager}: IProps) => {
 
+    const chainId = useChainId()
+
     const nft = metadata?.[achievementType as any]
 
     const tokenAddress = useContractRead({
       address: manager as Address,
       abi: RPSAchievementManager,
       functionName: nft?.address,
+      chainId: chainId
     })
 
     // const balance = useContractRead({
