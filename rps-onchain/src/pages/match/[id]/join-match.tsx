@@ -22,8 +22,8 @@ export default function JoinMatch() {
 
     const [gameInfo, setGameInfo] = useState<any>(null)
 
-    const playerAStake = gameInfo?.playerAStake
-    const playerBStake = gameInfo?.playerBStake
+    const playerAStake = gameInfo && gameInfo?.playerAStake
+    const playerBStake = gameInfo && gameInfo?.playerBStake
 
     const getGameInfo = useContractRead({
         address: router.query.id as Address,
@@ -78,7 +78,7 @@ export default function JoinMatch() {
                     <div className="max-w-lg w-full text-gray-800">
 
                         {
-                            gameInfo?.isStaked && (
+                             gameInfo && gameInfo?.isStaked && (
                                 <div className="flex flex-col items-center justify-center">
                                     <h4 className="text-center text-xl font-semibold">Player A</h4> 
                                     <p>Asset Type: {assetType(playerAStake.stakeType)}</p>
