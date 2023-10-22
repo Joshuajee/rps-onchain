@@ -1,9 +1,6 @@
 import AchievementCard from "@/components/utils/AchievementCard";
 import Container from "@/components/utils/Container";
-import GameButton from "@/components/utils/GameButton";
 import Layout from "@/components/utils/Layout";
-import { useRouter } from "next/router";
-
 
 export default function Home() {
 
@@ -28,9 +25,9 @@ export default function Home() {
 
           <AchievementCard achievementType="rps-gen" />
 
-          <AchievementCard achievementType="rps-king" />
-
           <AchievementCard achievementType="rps-war" />
+
+          <AchievementCard achievementType="rps-king" />
         
         </div>
         

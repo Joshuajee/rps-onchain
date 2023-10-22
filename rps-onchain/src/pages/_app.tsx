@@ -8,6 +8,9 @@ import { WagmiConfig, configureChains, createConfig } from 'wagmi'
 import { polygonZkEvmTestnet, hardhat, scrollSepolia } from 'wagmi/chains'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const client = new QueryClient();
  
 const { publicClient, webSocketPublicClient } = configureChains(
   [scrollSepolia, polygonZkEvmTestnet, hardhat],
@@ -33,8 +36,10 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <WagmiConfig config={config}>
-      <Component {...pageProps} />
-      <ToastContainer autoClose={3000} hideProgressBar={true}  />
+      <QueryClientProvider client={client}>
+        <Component {...pageProps} />
+        <ToastContainer autoClose={3000} hideProgressBar={true}  />
+      </QueryClientProvider>
     </WagmiConfig> 
   )
 }
