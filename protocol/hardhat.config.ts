@@ -9,7 +9,6 @@ dotenv.config()
 // import "@nomiclabs/hardhat-etherscan";
 
 const PRIVATE_KEY = String(process.env.PRIVATE_KEY)
-const PRIVATE_KEY_LOCAL = String(process.env.PRIVATE_KEY_LOCAL)
 
 const config: HardhatUserConfig = {
   solidity: "0.8.20",
@@ -36,10 +35,6 @@ const config: HardhatUserConfig = {
 		scroll_sepolia: {
 			url: "https://sly-stylish-field.scroll-testnet.quiknode.pro/4196b86d0efc48afd45910796f7285dcf01d41c4/",
 			accounts: [PRIVATE_KEY],
-		},
-		fuji: {
-			url: 'https://api.avax-test.network/ext/C/rpc',
-			accounts: [ PRIVATE_KEY ]
 		},
 		mumbai: {
 			url: 'https://polygon-mumbai.g.alchemy.com/v2/1yHVzG9cEm8g0IJKQA0VO-nczdGW4NgO',

@@ -87,7 +87,6 @@ export default function JoinMatch() {
                                     <p>Token Address</p>
                                     <p>{playerBStake.tokenAddress}</p>
                                     <p>Value: {playerBStake?.value?.toString()}</p>
-
                                 </div>
                             ) 
                         }

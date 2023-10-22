@@ -14,12 +14,9 @@
     "aos": "^2.3.4",
     "ethereum-unit-converter": "^0.0.17",
     "ethers": "^6.7.1",
-    "fs": "^0.0.1-security",
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0",
     "next": "13.5.4",
-    "prisma": "^5.4.2",
-    "pusher-js": "^8.3.0",
     "react": "^18",
     "react-countdown": "^2.3.5",
     "react-dom": "^18",
@@ -28,10 +25,7 @@
     "react-query": "^3.39.3",
     "react-switch": "^7.0.0",
     "react-toastify": "^9.1.3",
-    "react-toggle": "^4.1.3",
-    "react-toggle-button": "^2.2.0",
     "truncate-eth-address": "^1.0.2",
-    "urql": "^4.0.5",
     "wagmi": "^1.4.3"
   },
   "devDependencies": {
