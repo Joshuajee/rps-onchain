@@ -26,13 +26,18 @@ contract RPSNFTToken is IRPSGameBase, ERC721, ERC721Burnable, Ownable {
         tokenUri = _tokenURI;
     }
 
-    function safeMint(address to) public onlyOwner {
+    function safeMint(address to) public onlyFactory() {
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
         return tokenUri;
+    }
+
+    modifier onlyFactory () {
+        if (msg.sender != factory) revert CallerNotFactory();
+        _;
     }
 
 }

@@ -10,19 +10,17 @@ async function main() {
         ]
     );
 
-    console.log("Address: ", token.getAddress())
+    console.log("Address: ", await token.getAddress())
 
 
-    const RPSAchievementManager = await ethers.getContractAt("RPSAchievementManager", "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512");
+    const RPSAchievementManager = await ethers.getContractAt("RPSAchievementManager", "0x46b142DD1E924FAb83eCc3c08e4D46E82f005e0E");
 
     await RPSAchievementManager.setToken1(
         token
     );
+
+    await token.initialize(await RPSAchievementManager.getAddress())
   
-
-    
-
-
 
 }
 

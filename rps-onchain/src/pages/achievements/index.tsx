@@ -1,8 +1,22 @@
 import AchievementCard from "@/components/utils/AchievementCard";
 import Container from "@/components/utils/Container";
 import Layout from "@/components/utils/Layout";
+import useContractAddr from "@/hooks/useContractAddr";
+import { useContractRead } from "wagmi";
+import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
 
-export default function Home() {
+export default function Achievement() {
+
+  const contract = useContractAddr()
+
+  const achievementManagerAddress = useContractRead({
+    address: contract,
+    abi: RPSGameFactory,
+    functionName: 'achievementManagerAddress',
+  })
+
+
+ console.log(achievementManagerAddress)
 
   return (
     <Layout>
@@ -11,23 +25,23 @@ export default function Home() {
 
         <div className='flex flex-grow flex-col gap-5 justify-center items-center text-white w-full my-20'>
           
-          <AchievementCard achievementType="rps-br" />
+          <AchievementCard achievementType="rps-br" manager={achievementManagerAddress.data} />
 
-          <AchievementCard achievementType="rps-f" />
+          <AchievementCard achievementType="rps-f" manager={achievementManagerAddress.data}/>
 
-          <AchievementCard achievementType="rps-s" />
+          <AchievementCard achievementType="rps-s" manager={achievementManagerAddress.data}/>
 
-          <AchievementCard achievementType="rps-w" />
+          <AchievementCard achievementType="rps-w" manager={achievementManagerAddress.data}/>
 
-          <AchievementCard achievementType="rps-sh" />
+          <AchievementCard achievementType="rps-sh" manager={achievementManagerAddress.data}/>
 
-          <AchievementCard achievementType="rps-b" />
+          <AchievementCard achievementType="rps-b" manager={achievementManagerAddress.data}/>
 
-          <AchievementCard achievementType="rps-gen" />
+          <AchievementCard achievementType="rps-gen" manager={achievementManagerAddress.data} />
 
-          <AchievementCard achievementType="rps-war" />
+          <AchievementCard achievementType="rps-war" manager={achievementManagerAddress.data} />
 
-          <AchievementCard achievementType="rps-king" />
+          <AchievementCard achievementType="rps-king" manager={achievementManagerAddress.data} />
         
         </div>
         
