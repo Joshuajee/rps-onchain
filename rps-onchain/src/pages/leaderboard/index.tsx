@@ -1,7 +1,6 @@
 import Container from "@/components/utils/Container";
 import Layout from "@/components/utils/Layout";
 import { useEffect, useState } from "react";
-import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { request, gql } from "graphql-request";
 import { useQuery } from "react-query";
 import convert from 'ethereum-unit-converter'
