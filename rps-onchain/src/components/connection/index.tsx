@@ -9,12 +9,15 @@ import ModalWrapper from '../modals/ModalWrapper'
 import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
 import convert from 'ethereum-unit-converter'
 import useContractAddr from '@/hooks/useContractAddr'
+import useChainId from '@/hooks/useChainId'
 
 
 
 const Connection = () => {
 
     const contractAddr = useContractAddr()
+
+    const chainId = useChainId()
 
     const { address, isConnected } = useAccount()
     const [show, setShow] = useState(false)
@@ -26,6 +29,7 @@ const Connection = () => {
         abi: RPSGameFactory,
         functionName: 'getRPSPTokenBalance',
         args: [address],
+        chainId: chainId
     })
 
     const close  = () => {
