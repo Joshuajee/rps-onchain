@@ -1,7 +1,6 @@
 import useInput from "@/hooks/useInput"
 import Input from "./Input"
 import { ChangeEvent, useEffect, useState } from "react"
-import "react-toggle/style.css" 
 import { StakeInfo } from "@/pages/match/create-match"
 import { ethers } from "ethers"
 import { Address } from "wagmi"

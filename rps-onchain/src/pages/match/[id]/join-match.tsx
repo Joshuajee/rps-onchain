@@ -9,11 +9,14 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { ASSET_TYPE } from "@/components/utils/GameStaker";
 import useContractAddr from "@/hooks/useContractAddr";
+import useChainId from "@/hooks/useChainId";
 
 
 export default function JoinMatch() {
 
     const contractAddr = useContractAddr()
+
+    const chainId = useChainId()
 
     const router = useRouter()
 
@@ -26,6 +29,7 @@ export default function JoinMatch() {
         address: router.query.id as Address,
         abi: RPSGame,
         functionName: 'getGameInfo',
+        chainId: chainId
     })
 
     const joinGame = useContractWrite({
@@ -33,7 +37,7 @@ export default function JoinMatch() {
         abi: RPSGameFactory,
         functionName: 'joinGame',
         args: [router.query.id],
-        value: playerBStake?.value
+        value: playerBStake?.value,
     })
 
     useEffect(() => {
@@ -87,7 +91,6 @@ export default function JoinMatch() {
                                     <p>Token Address</p>
                                     <p>{playerBStake.tokenAddress}</p>
                                     <p>Value: {playerBStake?.value?.toString()}</p>
-
                                 </div>
                             ) 
                         }

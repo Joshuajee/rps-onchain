@@ -56,7 +56,7 @@ export default function JoinMatch() {
     value: BigInt(playerAStake[2])
   })
 
-  const { isSuccess} = useWaitForTransaction({
+  const { isLoading, isSuccess} = useWaitForTransaction({
     hash: createGame.data?.hash,
   })
 
@@ -119,7 +119,7 @@ export default function JoinMatch() {
                 </div>
             }
 
-            <Web3btn onClick={createGame.write} loading={createGame.isLoading}>
+            <Web3btn onClick={createGame.write} loading={isLoading}>
               Create Match
             </Web3btn>
 

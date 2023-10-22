@@ -9,11 +9,14 @@ import { chooseMoveFromInt, deleteLocalHash, deleteLocalMove, deleteLocalSecret,
 import { IGameResult } from "./interfaces";
 import ActionScreen from "./ActionScreen";
 import Countdown from 'react-countdown';
+import useChainId from "@/hooks/useChainId";
 
 
 const GameArena = () => {
 
     const { address } = useAccount()
+
+    const chainId = useChainId()
 
     const router = useRouter()
 
@@ -37,13 +40,15 @@ const GameArena = () => {
         abi: RPSGame,
         functionName: 'getGameResult',
         watch: true,
+        chainId: chainId
     })
 
     const playerA =  useContractRead({
         address: gameAddress,
         abi: RPSGame,
         functionName: 'playerA',
-        watch: true
+        watch: true,
+        chainId: chainId
     })
 
     const gameTimeleft = useContractRead({
@@ -51,6 +56,7 @@ const GameArena = () => {
         abi: RPSGame,
         functionName: 'timeLeft',
         watch: true,
+        chainId: chainId
     })
 
 

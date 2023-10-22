@@ -2,17 +2,20 @@ import AchievementCard from "@/components/utils/AchievementCard";
 import Container from "@/components/utils/Container";
 import Layout from "@/components/utils/Layout";
 import useContractAddr from "@/hooks/useContractAddr";
-import { useContractRead } from "wagmi";
+import { useChainId, useContractRead } from "wagmi";
 import RPSGameFactory from "@/abi/contracts/src/RPSGameFactory.sol/RPSGameFactory.json";
 
 export default function Achievement() {
 
   const contract = useContractAddr()
 
+  const chainId = useChainId()
+
   const achievementManagerAddress = useContractRead({
     address: contract,
     abi: RPSGameFactory,
     functionName: 'achievementManagerAddress',
+    chainId: chainId
   })
 
 

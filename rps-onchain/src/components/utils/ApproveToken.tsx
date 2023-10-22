@@ -1,4 +1,4 @@
-import { Address, useContractWrite } from "wagmi"
+import { Address, useChainId, useContractWrite, useNetwork } from "wagmi"
 import Web3btn from "./Web3btn"
 import ERC20ABI from "@/abi/contracts/src/RPSPointToken.sol/RPSPointToken.json"
 import useContractAddr from "@/hooks/useContractAddr"
@@ -9,6 +9,8 @@ interface IProps {
 
 const ApproveToken = (props: IProps) => {
 
+    const chainId = useChainId()
+
     const contractAddr = useContractAddr()
 
     const { tokenAddress } = props
@@ -17,7 +19,8 @@ const ApproveToken = (props: IProps) => {
         address: tokenAddress,
         abi: ERC20ABI,
         functionName: "approve",
-        args: [contractAddr, 100000]
+        args: [contractAddr, 100000],
+        chainId: chainId
     })
 
     return (
