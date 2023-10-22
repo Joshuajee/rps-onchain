@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@apollo/client": "^3.8.6",
     "@lottiefiles/lottie-player": "^2.0.2",
     "aos": "^2.3.4",
     "ethereum-unit-converter": "^0.0.17",

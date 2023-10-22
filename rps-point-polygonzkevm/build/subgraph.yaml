@@ -1,6 +1,6 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: RPSTPointTokens
@@ -20,7 +20,7 @@ dataSources:
         - Transfer
       abis:
         - name: RPSTPointTokens
-          file: ./abis/RPSTPointTokens.json
+          file: RPSTPointTokens/abis/RPSTPointTokens.json
       eventHandlers:
         - event: Approval(indexed address,indexed address,uint256)
           handler: handleApproval
@@ -30,4 +30,4 @@ dataSources:
           handler: handleTokenBalance
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-      file: ./src/rpst-point-tokens.ts
+      file: RPSTPointTokens/RPSTPointTokens.wasm
